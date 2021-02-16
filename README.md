@@ -45,6 +45,7 @@ Some optional parameters are:
 Suppose we are meta-analyzing three studies, with 1000 cases 1000 controls in study 1; 2000 cases 2000 controls in study 2; and 3000 cases 3000 controls in study 3.
 Meanwhile, there are 100 cases shared by study 1 and study 2, 500 controls shared by study 2 and study 3, and 20 cases in study 1 appearing as controls in study 3. 
 Then in this case, we shall have three sample overlapping matrices as below:
+
 `Case-Case`
 
 ![equation](https://latex.codecogs.com/gif.latex?%5Cbegin%7Bpmatrix%7D%201000%20%26%20100%20%26%200%20%5C%5C%20100%20%26%202000%20%26%200%20%5C%5C%200%20%26%200%20%26%203000%20%5C%5C%20%5Cend%7Bpmatrix%7D)
