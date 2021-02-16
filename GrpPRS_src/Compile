@@ -1,0 +1,7 @@
+CompileDir=$1
+
+gcc -c cdflib.c
+ar -rc libcdf.a *.o
+ranlib libcdf.a
+
+gcc Main.c CountConstruct.c Prep.c SupportFunc.c -L. -lcdf -o ${CompileDir}/grpPRS -lm
