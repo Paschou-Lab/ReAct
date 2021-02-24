@@ -18,6 +18,10 @@ For individual module specifics:
 
 [Examples to run ReAct](#A-few-examples)
 
+_Feb 24 2021_
+Added Group PRS with sample overlap correction. **This has not been tested yet. And the ReadMe will need to be updated.**
+Will do later
+
 # Meta-analysis
 ## Compilation
 Download folder `MetaAnalysis_src` for source code of meta-analysis module. Inside the directory with source code, simply run the command:
