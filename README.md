@@ -1,5 +1,5 @@
 
-# ReAct 
+# ReAct -- the _beta_ branch
 
 ReAct(**Re**constructing **A**llelic **c**oun**t**) is a tool built upon our genotype reconstruction framework for case-control GWAS summary statistics.
 It includes three modules: Meta-analysis, group GWAS and case-case GWAS.
@@ -19,6 +19,7 @@ For individual module specifics:
 [Examples to run ReAct](#A-few-examples)
 
 _Feb 24 2021_
+
 Added Group PRS with sample overlap correction. **This has not been tested yet. And the ReadMe will need to be updated.**
 Will do later
 
