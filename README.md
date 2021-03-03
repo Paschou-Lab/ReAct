@@ -23,6 +23,12 @@ _Feb 24 2021_
 Added Group PRS with sample overlap correction. **This has not been tested yet. And the ReadMe will need to be updated.**
 Will do later
 
+_Mar 03 2021_
+updated Group PRS with sample overlap correction. 
+**This is tested. Work with some assumptions. Still need to update the ReadMe.**
+Need proofread on theory
+
+
 # Meta-analysis
 ## Compilation
 Download folder `MetaAnalysis_src` for source code of meta-analysis module. Inside the directory with source code, simply run the command:
