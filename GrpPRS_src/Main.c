@@ -89,7 +89,7 @@ int main(int argc, char* argv[]) {
                 i++;
             } // read header 
 
-            if (!(SNPc && CHRc && Posc && Affc && Unaffc && ORc && SEc)) {
+            if (!(SNPc && CHRc && Posc && Affc && Unaffc && ( ORc || BETAc ) && SEc)) {
                 printf("Missing token\n");
                 exit(0);
             } // input format sanity check
