@@ -4,6 +4,13 @@
 #include <math.h>
 #include "SupportFunc.h"
 
+void convertToUpperCase(char *Str) {
+  while(*Str) {
+    *Str = toupper((unsigned char)*Str);
+    Str ++;
+    }
+}
+
 double WaldP(double beta, double SE) {
 	double Z = fabs(beta/SE);
 	double p, q;
