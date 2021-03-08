@@ -4,6 +4,13 @@
 #include <math.h>
 #include "SupportFunc.h"
 
+void convertToUpperCase(char *Str) {
+  while(*Str) {
+    *Str = toupper((unsigned char)*Str);
+    Str ++;
+    }
+}
+
 double LogLikelihood(double x2, double y2, double xy, double rho, double N) {
 	double l0 = - N/2 * log(1-pow(rho,2)) - (x2 - 2*xy*rho + y2)/(2 * (1 - pow(rho,2)));
 	double l1 = N*log(bivnor(-Zthres,-Zthres,rho) + bivnor(Zthres,Zthres,rho) - bivnor(Zthres,-Zthres,rho) - bivnor(-Zthres,Zthres,rho));
