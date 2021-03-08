@@ -69,13 +69,14 @@ void ReadBase(char *InputBase, FILE *LogFile) {
 	long int i = 0;
 	Frq Basefrq;
 	FILE *Base;
+	char snp[50], a1[100], a2[100];
 	Base = fopen(InputBase, "r");
 	if (Base == NULL) {
 	    printf("Cannot open PRS input file.\n");
 	    exit(0);
 	}
 	else {
-		int SNPc = 0, CHRc = 0, Posc = 0, ORc = 0, SEc = 0, Affc = 0, Unaffc = 0, Betac = 0, Pc = 0;
+		int SNPc = 0, CHRc = 0, Posc = 0, ORc = 0, SEc = 0, Affc = 0, Unaffc = 0, BETAc = 0, Pc = 0;
 		char *tok;
 		fgets(buffer, sizeof(buffer), Base);
 		tok = strtok(buffer," \t\n");
@@ -93,15 +94,15 @@ void ReadBase(char *InputBase, FILE *LogFile) {
 			else if (strcmp(tok, "P") == 0)
 				Pc = i+1;
 			else if (strcmp(tok, "A1") == 0)
-                Affc = i+1;
-            else if (strcmp(tok, "A2") == 0)
-                Unaffc = i+1;
-            else if (strcmp(tok, "Beta") == 0)
-                Betac = i+1;
+                		Affc = i+1;
+           		 else if (strcmp(tok, "A2") == 0)
+                		Unaffc = i+1;
+           		 else if (strcmp(tok, "Beta") == 0)
+                		BETAc = i+1;
 			tok = strtok(NULL, " \t\n");
 			i++;
 		}
-		if (!(SNPc && CHRc && Posc && ORc && SEc && Pc)) {
+		if (!(SNPc && CHRc && Posc && ( ORc || BETAc) && SEc && Pc)) {
 			printf("Missing token\n");
 			exit(0);
 		}
@@ -116,20 +117,25 @@ void ReadBase(char *InputBase, FILE *LogFile) {
 				p = strtok(NULL," \t\n");
 			}
 			Data tmp;
-            strcpy(tmp.SNP,token[SNPc-1]);
-            strcpy(tmp.Aff,token[Affc-1]);
-            strcpy(tmp.Unaff,token[Unaffc-1]);
-            tmp.CHR = atoi(token[CHRc-1]);
-            tmp.Pos = atoi(token[Posc-1]);
-            if (Betac)
-            	tmp.Beta = atof(token[Betac-1]);
-            else
-            	tmp.Beta = log(atof(token[ORc-1]));
-	            // tmp.Beta = log(atof(token[ORc-1]))/atof(token[SEc-1]); //possible shrinkage?
-	        if (atof(token[Pc-1]) <= thresP) {
-            	hashSNPpush(tmp);
-		        i++;
-	        }
+		    	strcpy(snp,token[SNPc-1]);
+		    	strcpy(a1,token[Affc-1]);
+		    	strcpy(a2,token[Unaffc-1]);
+		    	convertToUpperCase(a1);
+		    	convertToUpperCase(a2);
+		    	strcpy(tmp.SNP,snp);
+		    	strcpy(tmp.Aff,a1);
+		    	strcpy(tmp.Unaff,a2);
+		    	tmp.CHR = atoi(token[CHRc-1]);
+		    	tmp.Pos = atoi(token[Posc-1]);
+		    	if (BETAc)
+				tmp.Beta = atof(token[BETAc-1]);
+		    	else
+				tmp.Beta = log(atof(token[ORc-1]));
+			    // tmp.Beta = log(atof(token[ORc-1]))/atof(token[SEc-1]); //possible shrinkage?
+			if (atof(token[Pc-1]) <= thresP) {
+				hashSNPpush(tmp);
+				i++;
+			}
 		}
 	}
 	fclose(Base);
