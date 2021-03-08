@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <ctype.h>
 #include "cdflib.h"
 #include "Preparation.h"
 #include "CountConstruct.h"
@@ -23,7 +24,7 @@ double SqrSumZk[20][20];
 double Nik[20][20];
 double CorrR[20][20];
 
-
+void convertToUpperCase(char *Str);
 double WaldP(double beta, double SE);
 // double StandBiNormCDF(double rho);
 double LogLikelihood(double x2, double y2, double xy, double rho, double N);
