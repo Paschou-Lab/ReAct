@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <ctype.h>
 #include "cdflib.h"
 #include "Preparation.h"
 #include "CountConstruct.h"
