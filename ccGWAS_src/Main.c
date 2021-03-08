@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <ctype.h>
 #include "cdflib.h"
 #include "Preparation.h"
 #include "CountConstruct.h"
@@ -40,7 +41,7 @@ int main(int argc,char* argv[]) {
 
 	char snp[50], a1[50], a2[50];
 	int chr;
-	long int pos, ncase, ncontrol, counter;
+	long int pos, ncase, ncontrol;
 	double or, se, freq;
 	Data *tmpSNP;
 	tmpSNP = malloc(sizeof(Data));
@@ -54,7 +55,7 @@ int main(int argc,char* argv[]) {
             exit(0);
         }
         else {
-            int SNPc = 0, Affc = 0, Unaffc = 0, CHRc = 0, Posc = 0, ORc = 0, SEc = 0, nCasec = 0, nControlc = 0, Frqc = 0;
+            int SNPc = 0, Affc = 0, Unaffc = 0, CHRc = 0, Posc = 0, ORc = 0, BETAc = 0, SEc = 0, nCasec = 0, nControlc = 0, Frqc = 0;
             char *tok;
             fgets(buffer, sizeof(buffer), InFile);
             int i = 0;
@@ -72,6 +73,8 @@ int main(int argc,char* argv[]) {
                     Unaffc = i+1;
                 else if (strcmp(tok, "OR") == 0)
                     ORc = i+1;
+                else if (strcmp(tok, "Beta") == 0)
+                    BETAc = i+1;
                 else if (strcmp(tok, "SE") == 0)
                     SEc = i+1;
                 else if (strcmp(tok, "nCase") == 0)
@@ -83,13 +86,11 @@ int main(int argc,char* argv[]) {
                 tok = strtok(NULL, " \t\n");
                 i++;
             } // read header 
-            if (!(SNPc && CHRc && Posc && Affc && Unaffc && ORc && SEc)) {
+            if (!(SNPc && CHRc && Posc && Affc && Unaffc && ( ORc || BETAc) && SEc)) {
                 printf("Missing token\n");
                 exit(0);
             } // input format sanity check
-            counter = 0;
             while (fgets(buffer, sizeof(buffer), InFile) != NULL) {
-                counter++;
                 char *token[i];
                 char *p = strtok(buffer," \t\n");
                 j = 0;
@@ -100,9 +101,14 @@ int main(int argc,char* argv[]) {
                 strcpy(snp,token[SNPc-1]);
                 strcpy(a1,token[Affc-1]);
                 strcpy(a2,token[Unaffc-1]);
+                convertToUpperCase(a1);
+                convertToUpperCase(a2);
                 chr = atoi(token[CHRc-1]);
                 pos = atoi(token[Posc-1]);
-                or = atof(token[ORc-1]);
+                if (ORc)
+                    or = atof(token[ORc-1]);
+                else if (BETAc)
+                    or = exp(atof(token[BETAc-1]));
                 se = atof(token[SEc-1]);
                 if (!Frqc)
                     freq = 0.0f;
@@ -119,9 +125,9 @@ int main(int argc,char* argv[]) {
 
                 if (k == 0) {
                     Data tmp;
-                    strcpy(tmp.SNP,token[SNPc-1]);
-                    strcpy(tmp.Aff,token[Affc-1]);
-                    strcpy(tmp.Unaff,token[Unaffc-1]);
+                    strcpy(tmp.SNP,snp);
+                    strcpy(tmp.Aff,a1);
+                    strcpy(tmp.Unaff,a2);
                     tmp.CHR = chr;
                     tmp.Pos = pos;
                     tmp.OR[0] = or;
