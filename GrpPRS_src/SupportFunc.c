@@ -5,6 +5,12 @@
 #include "cdflib.h"
 #include "SupportFunc.h"
 
+void convertToUpperCase(char *Str) {
+  while(*Str) {
+    *Str = toupper((unsigned char)*Str);
+    Str ++;
+    }
+}
 
 // Hash function to carry out over the base pair position of a SNP
 long int hashFunc(long int i) {
