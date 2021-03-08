@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <ctype.h>
 #include "cdflib.h"
 
 #define maxDF 20
@@ -38,6 +39,8 @@ double SDControl[maxDF];
 double SDDF[maxDF];
 double Pval[maxDF];
 long int nSNPDf[maxDF];
+
+void convertToUpperCase(char *Str);
 
 long int hashFunc(long int i);
 
