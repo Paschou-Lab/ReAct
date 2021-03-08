@@ -24,6 +24,7 @@ double SqrSumZ1, SqrSumZ2;
 double N12;
 double CorrR;
 
+void convertToUpperCase(char *Str);
 double LogLikelihood(double x2, double y2, double xy, double rho, double N);
 void UpdateSumZ(double OR[2], double SE[2]);
 double GetCorrR();
