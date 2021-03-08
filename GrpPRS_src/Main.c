@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <ctype.h>
 #include "cdflib.h"
 #include "Prep.h"
 #include "CountConstruct.h"
@@ -56,7 +57,7 @@ int main(int argc, char* argv[]) {
         	Pval[k] = 1;
             VarCaS = VarConS = VarPopS = 0;
 
-            int SNPc = 0, Affc = 0, Unaffc = 0, CHRc = 0, Posc = 0, ORc = 0, SEc = 0, nCasec = 0, nControlc = 0, Frqc = 0;
+            int SNPc = 0, Affc = 0, Unaffc = 0, CHRc = 0, Posc = 0, ORc = 0, BETAc = 0, SEc = 0, nCasec = 0, nControlc = 0, Frqc = 0;
             char *tok;
             fgets(buffer, sizeof(buffer), InFile);
             int i = 0;
@@ -74,6 +75,8 @@ int main(int argc, char* argv[]) {
                     Unaffc = i+1;
                 else if (strcmp(tok, "OR") == 0)
                     ORc = i+1;
+                else if (strcmp(tok, "Beta") == 0)
+                    BETAc = i+1;
                 else if (strcmp(tok, "SE") == 0)
                     SEc = i+1;
                 else if (strcmp(tok, "nCase") == 0)
@@ -102,9 +105,14 @@ int main(int argc, char* argv[]) {
                 strcpy(snp,token[SNPc-1]);
                 strcpy(a1,token[Affc-1]);
                 strcpy(a2,token[Unaffc-1]);
+                convertToUpperCase(a1);
+                convertToUpperCase(a2);
                 chr = atoi(token[CHRc-1]);
                 pos = atoi(token[Posc-1]);
-                or = atof(token[ORc-1]);
+                if (ORc)
+                    or = atof(token[ORc-1]);
+                else if (BETAc)
+                    or = exp(atof(token[BETAc-1]));
                 se = atof(token[SEc-1]);
 
                 if (!Frqc)
