@@ -8,7 +8,7 @@ All three modules accept tab or space separated summary statistics of case-contr
 
 Some GWAS summary statistics include fields specifying the sample sizes for each SNP. If column headers `nCase` and `nControl` are found in the input, ReAct will use values from these two columns instead of sample sizes specified by parameter file for more accurate results. 
 
-**This is a preliminary implementation _(ReACt beta)_. Please contact us if you identify any bug when using this version of ReACt and we will keep improving. Thank you for understanding. **
+**This is a preliminary implementation _(ReACt beta)_. Please contact us if you identify any bug when using this version of ReACt and we will keep improving. Thank you for understanding.**
 
 For individual module specifics:
 
