@@ -97,7 +97,7 @@ Some optional parameters are:
 * **Zthres**: Same as **Zthres** for `MetaAnalysis`, triggers correction for unknow sample overlap. Please see [this note](#A-special-note-regarding-the-overlap-correction-for-GrpPRS-and-ccGWAS) before using.
 
 ## Output
-Output file of `GrpPRS` includes `InFile`, `Pthres`, `nSNPs` for the number of SNPs used in the PRS analysis of this base-target pair, `CasePRS`, `ControlPRS`, `CasePRS_SE` and `ControlPRS_SE` for  group mean PRS of cases and controls and their standard errors; `R2` is the R^2 value converted from t-test statistics, which herefore, corresponds to the regression R^2 with only the PRS predictor; `Pval` is the t-test p-value comparing case-control PRS distribution. 
+Output file of `GrpPRS` includes `InFile`, `Pthres`, `nSNPs` for the number of SNPs used in the PRS analysis of this base-target pair, `CasePRS`, `ControlPRS`, `CasePRS_SE` and `ControlPRS_SE` for  group mean PRS of cases and controls and their standard errors; `R2` is the *R^2* value converted from t-test statistics, which herefore, corresponds to the regression *R^2* with only the PRS predictor; `Pval` is the t-test p-value comparing case-control PRS distribution. 
 
 ## Note for GrpPRS
 `GrpPRS` **does not** automatically prune/clump/lasso the base summary statistics. So we suggest user thinning the base file using some external tool before feeding it as an input to `GrpPRS`.
@@ -156,7 +156,10 @@ Base\tBaseSumStat
 Output\tOutputFile
 Pthres\t0.01
 nCase\t1000,2000
-nControl\t1000,2000" > par.grpprs
+nControl\t1000,2000
+nBase\t3000,3000
+OverlapCases\t100,200
+OverlapControls\t200,400" > par.grpprs
 
 ./grpPRS par.grpprs
 ```
