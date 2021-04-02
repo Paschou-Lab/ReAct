@@ -6,7 +6,7 @@
 
 // Function to read the parameters from the input text file
 void ReadParam(char *ParIn) {
-	int nCa, nCon;
+	int nCa, nCon, nOver;
 	FILE *ParFile;
 	ParFile = fopen(ParIn,"r");
 	if (ParFile == NULL) {
@@ -15,6 +15,7 @@ void ReadParam(char *ParIn) {
     }
     else {
     	thresP = 1.0; //defaul taking all SNPs, if no threshold specified
+    	Zthres = 0.0;
     	while (fgets(buffer, sizeof(buffer), ParFile) != NULL) {
 	    	char *tok = strtok(buffer," \t\n");
 	    	char *toktmp;
@@ -35,6 +36,35 @@ void ReadParam(char *ParIn) {
 	    			strcpy(Output, strtok(NULL, " \t\n"));
 	    		else if (strcmp(tok, "Pthres") == 0)
 	    			thresP = atof(strtok(NULL, " \t\n"));
+	    		else if (strcmp(tok, "Zthres") == 0)
+	    			Zthres = atof(strtok(NULL, " \t\n"));
+	    		////
+	    		else if (strcmp(tok, "nBase") == 0) {
+	    			strcpy(bufftmp, strtok(NULL, " \t\n"));
+	    			toktmp = strtok(bufftmp,", \t\n");
+	    			nCaBase = atoi(toktmp);
+	    			toktmp = strtok(NULL,", \t\n");
+	    			nConBase = atoi(toktmp);
+	    		}
+	    		else if (strcmp(tok, "OverlapCases") == 0) {
+	    			strcpy(bufftmp, strtok(NULL, " \t\n"));
+	    			toktmp = strtok(bufftmp,", \t\n");
+	    			nOver = 0;
+	    			while( toktmp != NULL ) {
+	    				nOverlapCa[nOver++] = atof(toktmp);
+				  		toktmp = strtok(NULL, ", \t\n");
+				  	}
+	    		}
+	    		else if (strcmp(tok, "OverlapControls") == 0) {
+	    			strcpy(bufftmp, strtok(NULL, " \t\n"));
+	    			toktmp = strtok(bufftmp,", \t\n");
+	    			nOver = 0;
+	    			while( toktmp != NULL ) {
+	    				nOverlapCon[nOver++] = atof(toktmp);
+				  		toktmp = strtok(NULL, ", \t\n");
+				  	}
+	    		}
+	    		////
 	    		else if (strcmp(tok, "nCase") == 0) {
 	    			strcpy(bufftmp, strtok(NULL, " \t\n"));
 	    			toktmp = strtok(bufftmp,", \t\n");
@@ -55,7 +85,7 @@ void ReadParam(char *ParIn) {
 	    		}
 	    	}
     	}
-
+    	dfBase = (double)(nCaBase + nConBase - 2);
     	if ((nCa != nInfile) || (nCon != nInfile)) {
     		printf("Missing parameter!\n");
     		exit(0);
@@ -67,6 +97,7 @@ void ReadParam(char *ParIn) {
 // Function to read the Base data into Hash table
 void ReadBase(char *InputBase, FILE *LogFile) {
 	long int i = 0;
+	double or,se;
 	Frq Basefrq;
 	FILE *Base;
 	char snp[50], a1[100], a2[100];
@@ -94,11 +125,11 @@ void ReadBase(char *InputBase, FILE *LogFile) {
 			else if (strcmp(tok, "P") == 0)
 				Pc = i+1;
 			else if (strcmp(tok, "A1") == 0)
-                		Affc = i+1;
-           		 else if (strcmp(tok, "A2") == 0)
-                		Unaffc = i+1;
-           		 else if (strcmp(tok, "Beta") == 0)
-                		BETAc = i+1;
+                Affc = i+1;
+            else if (strcmp(tok, "A2") == 0)
+                Unaffc = i+1;
+            else if (strcmp(tok, "Beta") == 0)
+                BETAc = i+1;
 			tok = strtok(NULL, " \t\n");
 			i++;
 		}
@@ -117,25 +148,33 @@ void ReadBase(char *InputBase, FILE *LogFile) {
 				p = strtok(NULL," \t\n");
 			}
 			Data tmp;
-		    	strcpy(snp,token[SNPc-1]);
-		    	strcpy(a1,token[Affc-1]);
-		    	strcpy(a2,token[Unaffc-1]);
-		    	convertToUpperCase(a1);
-		    	convertToUpperCase(a2);
-		    	strcpy(tmp.SNP,snp);
-		    	strcpy(tmp.Aff,a1);
-		    	strcpy(tmp.Unaff,a2);
-		    	tmp.CHR = atoi(token[CHRc-1]);
-		    	tmp.Pos = atoi(token[Posc-1]);
-		    	if (BETAc)
-				tmp.Beta = atof(token[BETAc-1]);
-		    	else
-				tmp.Beta = log(atof(token[ORc-1]));
-			    // tmp.Beta = log(atof(token[ORc-1]))/atof(token[SEc-1]); //possible shrinkage?
-			if (atof(token[Pc-1]) <= thresP) {
-				hashSNPpush(tmp);
-				i++;
-			}
+            strcpy(snp,token[SNPc-1]);
+            strcpy(a1,token[Affc-1]);
+            strcpy(a2,token[Unaffc-1]);
+            convertToUpperCase(a1);
+            convertToUpperCase(a2);
+            strcpy(tmp.SNP,snp);
+            strcpy(tmp.Aff,a1);
+            strcpy(tmp.Unaff,a2);
+            tmp.CHR = atoi(token[CHRc-1]);
+            tmp.Pos = atoi(token[Posc-1]);
+
+            ////
+            tmp.Pbase = atof(token[Pc-1]);
+            or = atof(token[ORc-1]);
+            se = atof(token[SEc-1]);
+            tmp.Zbase = (or*se != 0) ? log(or)/se : 0.0f;
+            tmp.Basefrq = GroupFreq(se, nCaBase, nConBase, or, 0.0);
+            ////
+            if (BETAc)
+            	tmp.Beta = atof(token[BETAc-1]);
+            else
+            	tmp.Beta = log(atof(token[ORc-1]));
+
+	        hashSNPpush(tmp);
+	        if (tmp.Pbase <= thresP) {
+		        i++;   
+	        }
 		}
 	}
 	fclose(Base);
@@ -143,7 +182,3 @@ void ReadBase(char *InputBase, FILE *LogFile) {
 	fprintf(LogFile, "P value threshold for base SNPs : %.2e.\n", thresP);
 	fprintf(LogFile, "%ld SNPs below P threshold read from base.\n", i);
 }
-
-
-
-
