@@ -8,7 +8,7 @@ All three modules accept tab or space separated summary statistics of case-contr
 
 Some GWAS summary statistics include fields specifying the sample sizes for each SNP. If column headers `nCase` and `nControl` are found in the input, ReAct will use values from these two columns instead of sample sizes specified by parameter file for more accurate results. 
 
-**This is a preliminary implementation _(ReACt beta)_. Please contact us if you identify any bug when using this version of ReACt and we will keep improving. Thank you for understanding.**
+**This is a preliminary implementation _(ReACt beta)_. Please contact us if you identify any bug when using this version of ReACt and we will keep improving. Please also let us know if you have any qestions regarding this readme file. Thank you for understanding.**
 
 For individual module specifics:
 
@@ -90,9 +90,14 @@ Mandatory parameters for `GrpPRS` are:
 * **Pthres**: Using SNPs with *p* < *Pthres* in the base summary statistics for PRS computation. Default *Pthres* = 1. If not specified, all SNPs from base will be used.
 * **nCase**: Array of case sample size for each target study. Lenth of this array should be the same as number of target sudies specified. 
 * **nControl**: Array of control sample size for each target study. Lenth of this array should be the same as number of target sudies specified. 
+* **nBase**: Number of cases and controls in the base study, separated by comma
+Some optional parameters are:
+* **OverlapCases**: Sample overlap for cases between each target study and the base study, separated by comma. Default 0 for all if not specified
+* **OverlapControls**: Sample overlap for controls between each target study and the base study, separated by comma. Default 0 for all if not specified
+* **Zthres**: Same as **Zthres** for `MetaAnalysis`, triggers correction for unknow sample overlap. Please see [this note](#A-special-note-regarding-the-overlap-correction-for-GrpPRS-and-ccGWAS) before using.
 
 ## Output
-Output file of `GrpPRS` includes `InFile`, `Pthres`, `nSNPs` for the number of SNPs used in the PRS analysis of this base-target pair, `CasePRS`, `ControlPRS`, `CasePRS_SE` and `ControlPRS_SE` for  group mean PRS of cases and controls and their standard errors, `StudyPRS` and `StudyPRS_SE` for mean PRS and standard error of all samples in the target study, `Pval` for t-test p-value comparing case-control PRS distribution. 
+Output file of `GrpPRS` includes `InFile`, `Pthres`, `nSNPs` for the number of SNPs used in the PRS analysis of this base-target pair, `CasePRS`, `ControlPRS`, `CasePRS_SE` and `ControlPRS_SE` for  group mean PRS of cases and controls and their standard errors; `R2` is the R^2 value converted from t-test statistics, which herefore, corresponds to the regression R^2 with only the PRS predictor; `Pval` is the t-test p-value comparing case-control PRS distribution. 
 
 ## Note for GrpPRS
 `GrpPRS` **does not** automatically prune/clump/lasso the base summary statistics. So we suggest user thinning the base file using some external tool before feeding it as an input to `GrpPRS`.
@@ -118,8 +123,8 @@ Output file of `ccGWAS` includes `SNP`, `CHR`, `BP`, `A1`, `A2`, `OR`, `SE`, and
 
 `ControlOR` is an estimate of the stratification effect for each SNP between two input studies, and `ControlSE` is a measurement for the confidence of this estimate. The lower `ControlSE` is, the more confident we are with the estimate. Therefore, we suggest filter the results by `ControlSE` values. Consider 0.05 as an emperical cutoff.
 
-## A special note regarding the overlap correction for ccGWAS
-We did implement the sample overlap correction from estimation for this module (same as `MetaAnalysis`, this can be triggered by specifying the **Zthres** parameter). However, we do not recommend using it with `ccGWAS`. Because this scheme attributes estimated overlap of samples into cases and controls proportionally by their sizes, while in reality we would expect the majority of overlap happening in controls rather than cases. This should not have as much impact on meta-analysis, but can greatly hurt the power of ccGWAS, since only cases are considered in this analysis. If the exact number of overlap in cases and controls are known, you can specify them through **CaseInCase**, **ControlInControl** and **CaseInControl**; If not, but you do expect certain amount of cases to be shared, specifying **Zthres** will generally give a little more conservative result for `ccGWAS`; If you expect only controls but not cases to be shared, we sugest not to use **Zthres**. Instead, since overlap in controls can lead to a smaller `ControlSE` in the result, we suggest use a more stringent threshold for result filtering.
+## A special note regarding the overlap correction for GrpPRS and ccGWAS
+We did implement the sample overlap correction from estimation for both modules (same as `MetaAnalysis`, this can be triggered by specifying the **Zthres** parameter). However, we do not recommend using it with `GrpPRS` or `ccGWAS`. Because this scheme attributes estimated overlap of samples into cases and controls proportionally by their sizes, while in reality we would expect the majority of overlap happening in controls rather than cases. This should not have as much impact on meta-analysis, but can bias the results for `GrpPRS` and greatly hurt the power of ccGWAS, since only cases are considered in this analysis. If the exact number of overlap in cases and controls are known, you can specify them through **OverlapControls** and **OverlapCases** for `GrpPRS`, or **CaseInCase**, **ControlInControl** and **CaseInControl** for `ccGWAS`; If not, but you do expect certain amount of cases to be shared, specifying **Zthres** will generally give a little more conservative result for `ccGWAS`; If you expect only controls but not cases to be shared in `ccGWAS`, we sugest not to use **Zthres**. Instead, since overlap in controls can lead to a smaller `ControlSE` in the result, we suggest use a more stringent threshold for result filtering.
 
 # A few examples
 The commands
