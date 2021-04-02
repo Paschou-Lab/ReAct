@@ -1,12 +1,14 @@
 
-# ReAct 
+# ReACt 
 
-ReAct(**Re**constructing **A**llelic **c**oun**t**) is a tool built upon our genotype reconstruction framework for case-control GWAS summary statistics.
+ReACt(**Re**constructing **A**llelic **C**oun**t**) is a tool built upon our genotype reconstruction framework for case-control GWAS summary statistics.
 It includes three modules: Meta-analysis, group GWAS and case-case GWAS.
 
 All three modules accept tab or space separated summary statistics of case-control GWAS as input, with `SNP`, `CHR`, `BP`, `A1`, `A2`, `OR`/`Beta` and `SE` as mandatory fields, and can be run by specifying a plain text file with designated parameters. 
 
 Some GWAS summary statistics include fields specifying the sample sizes for each SNP. If column headers `nCase` and `nControl` are found in the input, ReAct will use values from these two columns instead of sample sizes specified by parameter file for more accurate results. 
+
+**This is a preliminary implementation _(ReACt beta)_. Please contact us if you identify any bug when using this version of ReACt and we will keep improving. Thank you for understanding. **
 
 For individual module specifics:
 
