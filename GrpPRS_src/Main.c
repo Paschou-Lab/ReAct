@@ -13,6 +13,8 @@
 int main(int argc, char* argv[]) {
 
     int m; long int n;
+    memset(nOverlapCa, 0, sizeof(nOverlapCa[0]) * maxDF);
+    memset(nOverlapCon, 0, sizeof(nOverlapCon[0]) * maxDF);
 	ReadParam(argv[1]);
     for (m = 0; m < 23; m++) {
         for (n = 0; n < 10000; n++) {
@@ -31,17 +33,23 @@ int main(int argc, char* argv[]) {
         printf("Cannot open output file.\n");
         exit(0);
     } //check first wether the output file can be opened
-	fprintf(OutFile, "InFile\tPthres\tnSNPs\tCasePRS\tControlPRS\tStudyPRS\tCasePRS_SE\tControlPRS_SE\tStudyPRS_SE\tPval\n");
+	fprintf(OutFile, "InFile\tPthres\tnSNPs\tCasePRS\tControlPRS\tCasePRS_SE\tControlPRS_SE\tR2\tPval\n");
 
 	char snp[50], a1[50], a2[50];
-	int chr, k, j;
+	int chr, k, j, flag;
 	long int pos, ncase, ncontrol;;
-	double or, se, freq;
+	double or, se, freq, Zk;
 	Frq DFfrq;
-    double VarCaS, VarConS, VarPopS, Tstat, df;
 	Data *tmpSNP;
 	tmpSNP = malloc(sizeof(Data));
 	FILE *InFile;
+
+////
+    memset(SumZik, 0, sizeof(SumZik[0]) * maxDF);
+    memset(SqrSumZk, 0, sizeof(SqrSumZk[0][0]) * maxDF * 2);
+    memset(Nik, 0, sizeof(Nik[0]) * maxDF);
+    memset(CorrR, 0, sizeof(CorrR[0]) * maxDF);
+////
 
 	for (k = 0; k < nInfile; k++) {
         InFile = fopen(TargetIn[k], "r");
@@ -50,12 +58,12 @@ int main(int argc, char* argv[]) {
             exit(0);
         }
         else {
-        	ScoreCase[k] = 0;
-        	ScoreControl[k] = 0;
-        	ScoreDF[k] = 0;
+        	ScoreCase[k] = ScoreControl[k] = ScoreDF[k] = 0;
+            VarCaS[k] = VarConS[k] = VarPopS[k] = 0;
+            BaseScoreCase[k] = BaseScoreControl[k] = BaseScore[k] = 0; 
+            BaseVarCaS[k] = BaseVarConS[k] = BaseVarPopS[k] = 0;
         	nSNPDf[k] = 0;
         	Pval[k] = 1;
-            VarCaS = VarConS = VarPopS = 0;
 
             int SNPc = 0, Affc = 0, Unaffc = 0, CHRc = 0, Posc = 0, ORc = 0, BETAc = 0, SEc = 0, nCasec = 0, nControlc = 0, Frqc = 0;
             char *tok;
@@ -89,7 +97,7 @@ int main(int argc, char* argv[]) {
                 i++;
             } // read header 
 
-            if (!(SNPc && CHRc && Posc && Affc && Unaffc && ( ORc || BETAc ) && SEc)) {
+            if (!(SNPc && CHRc && Posc && Affc && Unaffc && ( ORc || BETAc) && SEc)) {
                 printf("Missing token\n");
                 exit(0);
             } // input format sanity check
@@ -130,39 +138,56 @@ int main(int argc, char* argv[]) {
 
                 tmpSNP = hashSNPsearch(chr, pos, snp);
                 if (tmpSNP) {
+                    flag = -1;
                 	DFfrq = GroupFreq(se, ncase, ncontrol, or, freq);
                 	if ((strcmp(a1, (*tmpSNP).Aff) == 0) && (strcmp(a2, (*tmpSNP).Unaff) == 0)) {
-                        ScoreCase[k] += (*tmpSNP).Beta * DFfrq.pCa;
-                        VarCaS += pow((*tmpSNP).Beta,2)*DFfrq.pCa*(1-DFfrq.pCa);
-                		ScoreControl[k] += (*tmpSNP).Beta * DFfrq.pCon;
-                        VarConS += pow((*tmpSNP).Beta,2)*DFfrq.pCon*(1-DFfrq.pCon);
-                		ScoreDF[k] += (*tmpSNP).Beta * DFfrq.pPop;
-                        VarPopS += pow((*tmpSNP).Beta,2)*DFfrq.pPop*(1-DFfrq.pPop);
-                		nSNPDf[k]++;
+                        flag = 1;
+                        if (Zthres > 0.0)
+                            UpdateZsum((*tmpSNP).Zbase, or, se, k);
                 	}
                 	else if ((strcmp(a2, (*tmpSNP).Aff) == 0) && (strcmp(a1, (*tmpSNP).Unaff) == 0)) {
-                		ScoreCase[k] += (*tmpSNP).Beta * (1-DFfrq.pCa);
-                        VarCaS += pow((*tmpSNP).Beta,2)*DFfrq.pCa*(1-DFfrq.pCa);
-                		ScoreControl[k] += (*tmpSNP).Beta * (1-DFfrq.pCon);
-                        VarConS += pow((*tmpSNP).Beta,2)*DFfrq.pCon*(1-DFfrq.pCon);
-                		ScoreDF[k] += (*tmpSNP).Beta * (1-DFfrq.pPop);
-                        VarPopS += pow((*tmpSNP).Beta,2)*DFfrq.pPop*(1-DFfrq.pPop);
-                		nSNPDf[k]++;
+                        flag = 0;
+                        if (Zthres > 0.0)
+                            UpdateZsum((*tmpSNP).Zbase, 1/or, se, k);
                 	}
+                    if (((*tmpSNP).Pbase <= thresP) && (flag != -1)) {
+                        UpdateScore((*tmpSNP), DFfrq, k, flag);
+                        nSNPDf[k]++;
+                    }
                 }
             }
             fclose(InFile);
-            ScoreCase[k] = ScoreCase[k]/nSNPDf[k];
-            SDCase[k] = sqrt(2*VarCaS/pow(2*nSNPDf[k],2));
-            ScoreControl[k] = ScoreControl[k]/nSNPDf[k];
-            SDControl[k] = sqrt(2*VarConS/pow(2*nSNPDf[k],2));
-            ScoreDF[k] = ScoreDF[k]/nSNPDf[k];
-            SDDF[k] = sqrt(2*VarPopS/pow(2*nSNPDf[k],2));
-            df = nCase[k]+nControl[k]-2;
-            Tstat = fabs(ScoreCase[k] - ScoreControl[k])/(SDDF[k]*sqrt(1/(double)nCase[k] + 1/(double)nControl[k]));
-            // printf("df = %lf, Tstat = %lf\n", df, Tstat);
-            Pval[k] = GetPval(Tstat, df);
-            fprintf(OutFile, "%s\t%lf\t%ld\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%.4e\n", TargetIn[k], thresP, nSNPDf[k], ScoreCase[k], ScoreControl[k], ScoreDF[k], SDCase[k], SDControl[k], SDDF[k], Pval[k]);
+        }
+    }
+
+    if (Zthres > 0.0) {
+        GetCorrR(nInfile);
+        for (k = 0; k < nInfile; k++) {
+            nOverlapCa[k] = sqrt(nCase[k]*nCaBase)*CorrR[k];
+            nOverlapCon[k] = sqrt(nControl[k]*nConBase)*CorrR[k];
+        }
+    }
+    for (k = 0; k < nInfile; k++) {
+        qCa[k] = nOverlapCa[k]/(double)nCase[k];
+        qCon[k] = nOverlapCon[k]/(double)nControl[k];
+        q[k] = (nOverlapCa[k]+nOverlapCon[k])/(double)(nCase[k] + nControl[k]);
+        if (Zthres > 0.0) 
+            fprintf(LogFile, "Est. sample overlap for %d-th target study and the base: %lf\n", k+1, q[k]);
+    }
+
+    for (k = 0; k < nInfile; k++) {
+        UpdateObsStat(k);
+        UpdateDisStat(k);
+        ShiftBaseScore(k);
+        if ( q[k] > 0.0) {
+            UpdateRealStat(k);
+            Pval[k] = GetPval(TstatReal[k], df[k]);
+            fprintf(OutFile, "%s\t%lf\t%ld\t%lf\t%lf\t%lf\t%lf\t%lf\t%.4e\n", TargetIn[k], thresP, nSNPDf[k], ScoreCase[k], ScoreControl[k], SDCase[k], SDControl[k], R2Real[k], Pval[k]);
+            fprintf(LogFile, "Study %s Finished, %ld SNPs taken for PRS computation.\n", TargetIn[k], nSNPDf[k]);
+        }
+        else {
+            Pval[k] = GetPval(TstatObs[k], df[k]);
+            fprintf(OutFile, "%s\t%lf\t%ld\t%lf\t%lf\t%lf\t%lf\t%lf\t%.4e\n", TargetIn[k], thresP, nSNPDf[k], ScoreCase[k], ScoreControl[k], SDCase[k], SDControl[k], R2Obs[k], Pval[k]);
             fprintf(LogFile, "Study %s Finished, %ld SNPs taken for PRS computation.\n", TargetIn[k], nSNPDf[k]);
         }
     }
