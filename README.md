@@ -161,7 +161,7 @@ nBase\t3000,3000
 OverlapCases\t100,200
 OverlapControls\t200,400" > par.grpprs
 
-./grpPRS par.grpprs
+./GrpPRS par.grpprs
 ```
 and 
 ```
