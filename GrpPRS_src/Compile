@@ -4,4 +4,7 @@ gcc -c cdflib.c
 ar -rc libcdf.a *.o
 ranlib libcdf.a
 
-gcc Main.c CountConstruct.c Prep.c SupportFunc.c -L. -lcdf -o ${CompileDir}/GrpPRS -lm
+gcc -c toms462.c
+ar rcs libBiNormP.a toms462.o
+
+gcc Main.c CountConstruct.c Prep.c SupportFunc.c -L. -lcdf -lBiNormP -o ${CompileDir}/GrpPRS -lm
