@@ -85,12 +85,16 @@ Frq GroupFreq(double se,long int nCase,long int nControl,double or,double freq) 
 
 //order: Case AA0/Aa1/aa2, Control AA0/Aa1/aa2
 void GCount(double Gcount[6], double dfCase, double dfControl, Frq dfFrq) {
-	Gcount[0] = dfCase*pow((1-dfFrq.pCa),2);
-    Gcount[1] = dfCase*2*dfFrq.pCa*(1-dfFrq.pCa);
-    Gcount[2] = dfCase*pow(dfFrq.pCa,2);
-    Gcount[3] = dfControl*pow((1-dfFrq.pCon),2);
-    Gcount[4] = dfControl*2*dfFrq.pCon*(1-dfFrq.pCon);
-    Gcount[5] = dfControl*pow(dfFrq.pCon,2);
+	if (fabs(dfFrq.pPop) > MonoThres) {
+		Gcount[0] = dfCase*pow((1-dfFrq.pCa),2);
+	    	Gcount[1] = dfCase*2*dfFrq.pCa*(1-dfFrq.pCa);
+	    	Gcount[2] = dfCase*pow(dfFrq.pCa,2);
+		Gcount[3] = dfControl*pow((1-dfFrq.pCon),2);
+		Gcount[4] = dfControl*2*dfFrq.pCon*(1-dfFrq.pCon);
+		Gcount[5] = dfControl*pow(dfFrq.pCon,2);
+	}
+	else 
+		Gcount[0] = Gcount[1] = Gcount[2] = Gcount[3] = Gcount[4] = Gcount[5] = 0.0;
 }
 
 int isEmpty(double Gcount[6]) {
