@@ -4,7 +4,7 @@
 ReACt(**Re**constructing **A**llelic **C**oun**t**) is a tool built upon our genotype reconstruction framework for case-control GWAS summary statistics.
 It includes three modules: Meta-analysis, group GWAS and case-case GWAS.
 
-Please find more details on our **[manuscript on BioRxiv](https://www.biorxiv.org/content/10.1101/2021.04.02.438281v2)**.
+Please find more details from our **[manuscript on BioRxiv](https://www.biorxiv.org/content/10.1101/2021.04.02.438281v2)**.
 
 All three modules accept tab or space separated summary statistics of case-control GWAS as input, with `SNP`, `CHR`, `BP`, `A1`, `A2`, `OR`/`Beta` and `SE` as mandatory fields, and can be run by specifying a plain text file with designated parameters. 
 
