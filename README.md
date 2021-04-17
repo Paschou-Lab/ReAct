@@ -25,7 +25,8 @@ For individual module specifics:
 # Meta-analysis
 ## Compilation
 **Compilation of MetaAnalysis module requires installation of GNU Scientific Library (GLS) library. Please find [here](https://www.gnu.org/software/gsl/) for download and installation.**
-Download folder `MetaAnalysis_src` for source code of meta-analysis module. Inside the directory with source code, simply run the command:
+
+Once GLS has been installed, download folder `MetaAnalysis_src` for source code of meta-analysis module. Inside the directory with source code, simply run the command:
 ```
 bash Compile /directory/of/where/you/what/the/tool/to/be/
 ```
