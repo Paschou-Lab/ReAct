@@ -29,7 +29,7 @@ _Updated Apr 17 2021: more robust matrix inverse (svd) in MetaAnalysis module; a
 
 # Meta-analysis
 ## Compilation
-**Compilation of MetaAnalysis module requires installation of GNU Scientific Library (GLS) library. Please find [here](https://www.gnu.org/software/gsl/) for download and installation.**
+**Compilation of MetaAnalysis module requires installation of GNU Scientific Library (GLS). Please find [here](https://www.gnu.org/software/gsl/) for download and installation.**
 
 Once GLS has been installed, download folder `MetaAnalysis_src` for source code of meta-analysis module. Inside the directory with source code, simply run the command:
 ```
