@@ -1,6 +1,10 @@
 
 # ReACt 
 
+_Update Mar 2021: Added preliminary sample overlap correction for GrpPRS module._
+
+_Update Apr 17 2021: more robust matrix inverse (svd) in MetaAnalysis module; adjusted iteration steps to accelerate convergence._
+
 ReACt(**Re**constructing **A**llelic **C**oun**t**) is a tool built upon our genotype reconstruction framework for case-control GWAS summary statistics.
 It includes three modules: Meta-analysis, group GWAS and case-case GWAS.
 
