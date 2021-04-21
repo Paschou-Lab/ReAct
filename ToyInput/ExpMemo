@@ -1,8 +1,0 @@
-nPop = 5
-nSNP = 100000
-Fst = 0.01
-Sample size each group (case/control) = 1000
-nCausal = 1000
-r = 1.2
-nSharedCases = 0
-nSharedControls = 0
