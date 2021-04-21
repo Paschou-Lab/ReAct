@@ -44,7 +44,7 @@ We can run MetaAnalysis on the toy input example as below:
 
 The commands
 ```
-echo -e "ToyInput/Toy_Meta.In1,ToyInput/Toy_Meta.In2
+echo -e "Input\tToyInput/Toy_Meta.In1,ToyInput/Toy_Meta.In2
 CaseInCase\t1000,0,0,1000
 CaseInControl\t0,0,0,0
 ControlInControl\t1000,0,0,1000
