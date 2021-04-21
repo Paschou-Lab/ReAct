@@ -20,6 +20,9 @@ For individual module specifics:
 
 **[Case-case GWAS](#Case-case-GWAS)** -- [fast forward to demo](#A-quick-demo-of-ccGWAS)
 
+We also provided codes for the simulator we used to generate synthetic data (toy input). Please see the readme file in _Simulator_ for more details. 
+
+
 _Updated Mar 2021: Added preliminary sample overlap correction for GrpPRS module._
 
 _Updated Apr 17 2021: more robust matrix inverse (svd) in MetaAnalysis module; adjusted iteration steps to accelerate convergence._
