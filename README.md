@@ -27,6 +27,8 @@ _Updated Mar 2021: Added preliminary sample overlap correction for GrpPRS module
 
 _Updated Apr 17 2021: more robust matrix inverse (svd) in MetaAnalysis module; adjusted iteration steps to accelerate convergence._
 
+_Updated Apr 21 2021: Added codes for simulator and toy input files._
+
 # Meta-analysis
 ## Compilation
 **Compilation of MetaAnalysis module requires installation of GNU Scientific Library (GLS). Please find [here](https://www.gnu.org/software/gsl/) for download and installation.**
