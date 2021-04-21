@@ -169,7 +169,7 @@ Then we can run GrpPRS on the toy input example as below:
 
 The commands
 ```
-echo -e "Target\tToyInput/Toy_GrpPRS.tar
+echo -e "Target\tToyInput/Toy_GrpPRS.target
 Base\tToyInput/Toy_GrpPRS.base
 Output\tToy_GrpPRS.out
 Pthres\t1e-5
@@ -181,7 +181,7 @@ OverlapControls\t0" > par.grpprs
 ```
 should give us a parameter file `par.metaanalysis` that looks like
 ```
-Target  ToyInput/Toy_GrpPRS.tar
+Target  ToyInput/Toy_GrpPRS.target
 Base    ToyInput/Toy_GrpPRS.base
 Output  Toy_GrpPRS.out
 Pthres  1e-5
