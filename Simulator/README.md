@@ -1,5 +1,5 @@
-# SimEigentrat
-This is the Simulator we used for all our experiments on simulation data. It generates individual level genotypes in plink .tped and .tfam files under a Balding-Nichols model. We named it `SimEigentrat` because it is the same simulation model used in [this paper](https://www.nature.com/articles/ng1847).
+# SimEigenstrat
+This is the Simulator we used for all our experiments on simulation data. It generates individual level genotypes in plink .tped and .tfam files under a Balding-Nichols model. We named it `SimEigenstrat` because it is the same simulation model used in [this paper](https://www.nature.com/articles/ng1847).
 
 **To get summary statistics to run ReACt, you will need to install [plink](https://www.cog-genomics.org/plink/) and use command --assoc or --logistic to get the summary statistics to be used as input. Summary statistics used in our manuscript are generated through a standard manner using plink.**
 
@@ -8,12 +8,12 @@ Same as all other ReACt modules, simply download the folder and do
 ```
 bash Compile /directory/of/where/you/what/the/tool/to/be/
 ```
-then an exicutable titled `SimEigentrat` should be created in the designated directory.
+then an exicutable titled `SimEigenstrat` should be created in the designated directory.
 
 ## Quick demo for SimEigentrat
 Go to the directory where `SimEigentrat` is created, and run 
 ```
-./SimEigentrat Homo 12345 5 0.05 100000 1.2 1000 1000 1 DemoSim_Homo
+./SimEigenstrat Homo 12345 5 0.05 100000 1.2 1000 1000 1 DemoSim_Homo
 ```
 This should not take more than 10 minutes to run on any "normal" desktop or laptop. As a reuslt, it should give us two files 
 `DemoSim_Homo.tfam` and `DemoSim_Homo.tped`. They are standard plink plain text files. They should contain genotypes of 100,000 SNPs (out of which 1000 are causal with predefined risk r = 1.2), for 5 stratified populations with fixation index Fst = 0.05, each with 1000 case and 1000 controls -- so 1000*2*5 = 10,000 samples,a and 100,000 SNPs in total. You can verified this by doing
@@ -39,16 +39,16 @@ So you can easily seperate the populations and cases and controls, it you wish, 
 
 Run 
 ```
-./SimEigentrat Heter 12345 2 0.05 100000 1.2 49000 1000 1000 1000 1000 1 DemoSim_Heter
+./SimEigenstrat Heter 12345 2 0.05 100000 1.2 49000 1000 1000 1000 1000 1 DemoSim_Heter
 ```
 This should be faster than the previous line, as a smaller dataset is being simulated. It should give us `DemoSim_Heter.tfam` and `DemoSim_Heter.tped`. The output should contain 100,000 SNPs (out of which 1000 are causal only in population 1, 1000 are causal only in population 2, 49,000 are causal for both population, all with predefined risk r = 1.2) and only 2 populations, each with 1000 cases and 1000 controls -- so in total 100,000 SNPs and 4000 samples. They are in the same plink-friendly format as the `DemoSim_Homo.tfam` and `DemoSim_Homo.tped`. This is how we generate simulation for our ccGWAS experiments. 
 
-## Parameters to run SimEigentrat
+## Parameters to run SimEigenstrat
 By specifying flag 'Homo' or 'Heter', it can be used to generate homogeneous and hetergeneous populations, under different level of population stratification. More specifically:
 
 To generate homogeneous populations (simulations used for meta-analysis and group PRS), we can run 
 ```
-./SimEigentrat Homo seed nPop Fst nSNP r Ngroup nCausal i output
+./SimEigenstrat Homo seed nPop Fst nSNP r Ngroup nCausal i output
 ```
 with parameters as below:
 * **seed**: a sequence of seed for pseudo randomness generating
@@ -66,7 +66,7 @@ _Note that for this simulator, `Fst` has to be a value between 0 and 1. If we wa
 
 To generate hetergeneous populations (simulations used for cc-GWAS), we can run 
 ```
-./SimEigentrat Heter seed 2 Fst nSNP r nCausalShr Ngroup nCausal Ngroup nCausal i output
+./SimEigenstrat Heter seed 2 Fst nSNP r nCausalShr Ngroup nCausal Ngroup nCausal i output
 ```
 It takes more parameters than generating the homogeneous populations, with the extra parameters as below:
 * **nCausalShr**: predefined number of causal SNPs **shared** between populations (the stress test SNPs in our manuscript, we used nCausalShr = 49,000)
