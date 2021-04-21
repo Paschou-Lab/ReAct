@@ -257,7 +257,7 @@ cd ../
 ```
 So that the `ccGWAS` tool will be in the folder `ReAct-main/`, which is in the same layer as folder `ToyInput/`.
 
-With that we can run ccGWAS on the toy input. We first generate parameter file as below:
+With that we can run ccGWAS on the toy input. We first generate a parameter file as below:
 
 ```
 echo -e "Input\tToyInput/Toy_ccGWAS.In1,ToyInput/Toy_ccGWAS.In2
