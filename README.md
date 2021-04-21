@@ -92,7 +92,7 @@ rs1.433	1	212426	1	2	2000	2000	0.714288	0.054959	9.2290e-10
 rs1.179	1	85383	1	2	2000	2000	0.755939	0.045727	9.4317e-10
 rs1.890	1	453661	2	1	2000	2000	1.312954	0.045357	1.9365e-09
 ```
-Note that in the toy input, SNP rs1.1-rs1.1000 are all predefined causal SNPs with r = 1.2 (Please see read me of our simulator).
+Note that in the toy input, SNP rs1.1-rs1.1000 are all predefined causal SNPs with r = 1.2 (Please see read me of our Simulator).
 
 ## To run MetaAnalysis
 To run MetaAnalysis, go into the directory where the excutable locates and do:
@@ -143,6 +143,55 @@ Download folder `GrpPRS_src` for source code of group PRS module. Inside the dir
 bash Compile /directory/of/where/you/what/the/tool/to/be/
 ```
 Then an excutable titled `GrpPRS` shall be created in the specified directory.
+
+## A quick demo of GrpPRS
+
+We can run GrpPRS on the toy input example as below:
+
+The commands
+```
+echo -e "Target\tToyInput/Toy_GrpPRS.tar
+Base\tToyInput/Toy_GrpPRS.base
+Output\tToy_GrpPRS.out
+Pthres\t1e-5
+nCase\t1000
+nControl\t1000
+nBase\t1000,1000
+OverlapCases\t0
+OverlapControls\t0" > par.grpprs
+```
+should give us a parameter file `par.metaanalysis` that looks like
+```
+Target  ToyInput/Toy_GrpPRS.tar
+Base    ToyInput/Toy_GrpPRS.base
+Output  Toy_GrpPRS.out
+Pthres  1e-5
+nCase   1000
+nControl        1000
+nBase   1000,1000
+OverlapCases    0
+OverlapControls 0
+```
+then we can run 
+
+```
+./GrpPRS par.grpprs
+```
+For this we shoule get two files `Toy_GrpPRS.out` and `Toy_GrpPRS.out.log`. Main results are in `Toy_GrpPRS.out`. In this case it looks like this:
+```
+$ head Toy_GrpPRS.out
+InFile	Pthres	nSNPs	CasePRS	ControlPRS	CasePRS_SE	ControlPRS_SE	R2	Pval
+ToyInput/Toy_GrpPRS.In1	0.000010	36	0.016312	0.004217	0.017272	0.017407	0.108341	9.5673e-52
+```
+_Note that this toy example is based on a simulation with 1000 causal SNPs shared between base and target, each with a predefined risk r = 1.2 (which is very strong), so we are seeing a visible seperation from the Pvalue._ The log file for toy input should look like this:
+```
+$ head Toy_GrpPRS.out.log 
+Analysis Starts.
+P value threshold for base SNPs : 1.00e-05.
+36 SNPs below P threshold read from base.
+Study ToyInput/Toy_GrpPRS.In1 Finished, 36 SNPs taken for PRS computation.
+```
+
 
 ## To run GrpPRS
 Similar to MetaAnalysis, go into the directory where the `GrpPRS` locates and run:
