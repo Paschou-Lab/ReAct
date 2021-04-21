@@ -202,7 +202,7 @@ $ head Toy_GrpPRS.out
 InFile	Pthres	nSNPs	CasePRS	ControlPRS	CasePRS_SE	ControlPRS_SE	R2	Pval
 ToyInput/Toy_GrpPRS.In1	0.000010	36	0.016312	0.004217	0.017272	0.017407	0.108341	9.5673e-52
 ```
-_Note that this toy example is based on a simulation with 1000 causal SNPs shared between base and target, each with a predefined risk r = 1.2 (which is very strong), so we are seeing a very visible seperation from the Pvalue._ The log file for toy input should look like this:
+Note that this toy example is based on a simulation with 1000 causal SNPs shared between base and target, each with a predefined risk r = 1.2 (which is very strong), so we are seeing a very visible seperation between case and control scores from the Pvalue. The log file for toy input should look like this:
 ```
 $ head Toy_GrpPRS.out.log 
 Analysis Starts.
