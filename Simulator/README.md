@@ -35,7 +35,7 @@ Pop-1	Sample-ca3	0	0	0	2
 Pop-1	Sample-ca4	0	0	0	2
 Pop-1	Sample-ca5	0	0	0	2
 ```
-So you can easily seperate the populations and cases and controls, it you wish, using plink. DemoSim_Homo.tped will be too wide to show, but it should look like standard plink .tped file with 1 and 2 as genotype encoding. With that, seperate the file by populations, and run standard `--assoc` or `--logistic` (if introduced sample overlap) will give use the input summary statistics we can use for running ReACt. We used this command (with variable parameters for Fst and r, see below) to generate our simulation for experiments for Meta-analysis and group PRS.
+So you can easily separate the populations and cases and controls, it you wish, using plink. DemoSim_Homo.tped will be too wide to show, but it should look like standard plink .tped file with 1 and 2 as genotype encoding. With that, separate the file by populations, and run standard `--assoc` or `--logistic` (if introduced sample overlap) will give use the input summary statistics we can use for running ReACt. We used this command (with variable parameters for Fst and r, see below) to generate our simulation for experiments for Meta-analysis and group PRS.
 
 Run 
 ```
