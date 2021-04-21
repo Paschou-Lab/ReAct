@@ -8,7 +8,7 @@ Same as all other ReACt modules, simply download the folder and do
 ```
 bash Compile /directory/of/where/you/what/the/tool/to/be/
 ```
-then an exicutable titled `SimEigenstrat` should be created in the designated directory.
+then an executable titled `SimEigenstrat` should be created in the designated directory.
 
 ## Quick demo for SimEigenstrat
 Go to the directory where `SimEigenstrat` is created, and run 
