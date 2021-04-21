@@ -39,6 +39,61 @@ bash Compile /directory/of/where/you/what/the/tool/to/be/
 ```
 Then an excutable titled `MetaAnalysis` shall be created in the specified directory.
 
+## A quick demo of MetaAnalysis
+We can run MetaAnalysis on the toy input example as below:
+
+The commands
+```
+echo -e "ToyInput/Toy_Meta.In1,ToyInput/Toy_Meta.In2
+CaseInCase\t1000,0,0,1000
+CaseInControl\t0,0,0,0
+ControlInControl\t1000,0,0,1000
+Output\tToy_Meta.out" > par.metaanalysis
+```
+should give us a parameter file `par.metaanalysis` that looks like
+```
+Input     ToyInput/Toy_Meta.In1,ToyInput/Toy_Meta.In2
+CaseInCase      1000,0,0,1000
+CaseInControl   0,0,0,0
+ControlInControl        1000,0,0,1000
+nFiles  2
+Output  Toy_Meta.out
+```
+then simply run 
+
+```
+./MetaAnalysis par.metaanalysis
+```
+We shoule get two files `Toy_Meta.out` and `Toy_Meta.out.log` (for this toy input the log should be empty), where the results are in `Toy_Meta.out` and it looks like this:
+```
+$ head Toy_Meta.out
+SNP	CHR	BP	A1	A2	nCase	nControl	OR	SE	Pval
+rs1.16780	1	8390000	2	1	2000	2000	0.911469	0.047884	5.2883e-02
+rs1.30808	1	15440000	2	1	2000	2000	1.013197	0.061327	8.3071e-01
+rs1.33756	1	16910000	2	1	2000	2000	1.033609	0.048559	4.9603e-01
+rs1.44462	1	22240000	2	1	2000	2000	1.101519	0.048048	4.4183e-02
+rs1.48040	1	24000000	2	1	2000	2000	0.898449	0.044769	1.6760e-02
+rs1.53484	1	26710000	1	2	2000	2000	0.993419	0.046420	8.8690e-01
+rs1.66016	1	32950000	1	2	2000	2000	0.966554	0.046083	4.6039e-01
+rs1.72310	1	36110000	1	2	2000	2000	1.013949	0.045959	7.6310e-01
+rs1.80739	1	40300000	1	2	2000	2000	0.971235	0.056950	6.0830e-01
+```
+We can sort it by the `Pval` column, which will give us
+```
+$ sort -gk10 Toy_Meta.out| head
+SNP	CHR	BP	A1	A2	nCase	nControl	OR	SE	Pval
+rs1.892	1	455160	2	1	2000	2000	1.360291	0.045132	9.2514e-12
+rs1.334	1	161735	2	1	2000	2000	1.379423	0.047857	1.7995e-11
+rs1.574	1	285136	1	2	2000	2000	0.745643	0.045391	1.0053e-10
+rs1.480	1	239170	1	2	2000	2000	0.740488	0.046510	1.0484e-10
+rs1.78	1	37629	2	1	2000	2000	1.328030	0.045554	4.7345e-10
+rs1.782	1	395673	2	1	2000	2000	1.325074	0.045449	5.9031e-10
+rs1.433	1	212426	1	2	2000	2000	0.714288	0.054959	9.2290e-10
+rs1.179	1	85383	1	2	2000	2000	0.755939	0.045727	9.4317e-10
+rs1.890	1	453661	2	1	2000	2000	1.312954	0.045357	1.9365e-09
+```
+Note that in the toy input, SNP rs1.1-rs1.1000 are all predefined causal SNPs with r = 1.2 (Please see read me of our simulator).
+
 ## To run MetaAnalysis
 To run MetaAnalysis, go into the directory where the excutable locates and do:
 ```
