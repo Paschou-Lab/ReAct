@@ -10,8 +10,8 @@ bash Compile /directory/of/where/you/what/the/tool/to/be/
 ```
 then an exicutable titled `SimEigenstrat` should be created in the designated directory.
 
-## Quick demo for SimEigentrat
-Go to the directory where `SimEigentrat` is created, and run 
+## Quick demo for SimEigenstrat
+Go to the directory where `SimEigenstrat` is created, and run 
 ```
 ./SimEigenstrat Homo 12345 5 0.05 100000 1.2 1000 1000 1 DemoSim_Homo
 ```
