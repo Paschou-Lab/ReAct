@@ -1,0 +1,1 @@
+1-label(mode), 2-seed, 3-nPop, 4-Fst, 5-nSNP, 6-r, (7-nSample, 8-nCausal)*nPop, (7+2nPop)-Exp identifier, (8+2nPop)-output file name

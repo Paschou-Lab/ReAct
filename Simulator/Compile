@@ -1,0 +1,5 @@
+CompileDir=$1
+
+module unload intel/compiler/64/16.0.2/2016.2.181
+gcc Simulation-Eigenstrat.c gen_beta.c -L. -o ${CompileDir}/SimEigentrat -lm
+
