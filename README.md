@@ -92,7 +92,7 @@ rs1.433	1	212426	1	2	2000	2000	0.714288	0.054959	9.2290e-10
 rs1.179	1	85383	1	2	2000	2000	0.755939	0.045727	9.4317e-10
 rs1.890	1	453661	2	1	2000	2000	1.312954	0.045357	1.9365e-09
 ```
-Note that in the toy input, SNP rs1.1-rs1.1000 are all predefined causal SNPs with r = 1.2 (Please see read me of our Simulator).
+Note that in the toy input, SNP rs1.1-rs1.1000 are all predefined causal SNPs with r = 1.2 (Please see readme of our Simulator for more details), so all of the top SNPs here are ture positive. _Note that in our manuscript we reported results based on an average out of 10 iterarions, but for any single experiment the trend should be comparable. You can further verify power and type I error rate under different conditions using the simulator we provided, and compare with METAL or ASSET._ 
 
 ## To run MetaAnalysis
 To run MetaAnalysis, go into the directory where the excutable locates and do:
@@ -177,13 +177,13 @@ then we can run
 ```
 ./GrpPRS par.grpprs
 ```
-For this we shoule get two files `Toy_GrpPRS.out` and `Toy_GrpPRS.out.log`. Main results are in `Toy_GrpPRS.out`. In this case it looks like this:
+For this we should get two files `Toy_GrpPRS.out` and `Toy_GrpPRS.out.log`. Main results are in `Toy_GrpPRS.out`. In this case it looks like this:
 ```
 $ head Toy_GrpPRS.out
 InFile	Pthres	nSNPs	CasePRS	ControlPRS	CasePRS_SE	ControlPRS_SE	R2	Pval
 ToyInput/Toy_GrpPRS.In1	0.000010	36	0.016312	0.004217	0.017272	0.017407	0.108341	9.5673e-52
 ```
-_Note that this toy example is based on a simulation with 1000 causal SNPs shared between base and target, each with a predefined risk r = 1.2 (which is very strong), so we are seeing a visible seperation from the Pvalue._ The log file for toy input should look like this:
+_Note that this toy example is based on a simulation with 1000 causal SNPs shared between base and target, each with a predefined risk r = 1.2 (which is very strong), so we are seeing a very visible seperation from the Pvalue._ The log file for toy input should look like this:
 ```
 $ head Toy_GrpPRS.out.log 
 Analysis Starts.
@@ -191,7 +191,6 @@ P value threshold for base SNPs : 1.00e-05.
 36 SNPs below P threshold read from base.
 Study ToyInput/Toy_GrpPRS.In1 Finished, 36 SNPs taken for PRS computation.
 ```
-
 
 ## To run GrpPRS
 Similar to MetaAnalysis, go into the directory where the `GrpPRS` locates and run:
@@ -226,6 +225,70 @@ bash Compile /directory/of/where/you/what/the/tool/to/be/
 ```
 Then an excutable titled `ccGWAS` shall be created in the specified directory.
 
+## A quick demo of ccGWAS
+
+Similarly, we can run ccGWAS on the toy input. We first generate parameter file as below:
+
+```
+echo -e "Input\tToyInput/Toy_ccGWAS.In1,ToyInput/Toy_ccGWAS.In2
+CaseInCase\t2000,0,0,2000
+CaseInControl\t0,0,0,0
+ControlInControl\t2000,0,0,2000
+Output\tToy_ccGWAS.out" > par.ccgwas
+```
+which is supposed to give us
+```
+Input   ToyInput/Toy_ccGWAS.In1,ToyInput/Toy_ccGWAS.In2
+CaseInCase      2000,0,0,2000
+CaseInControl   0,0,0,0
+ControlInControl        2000,0,0,2000
+Output  Toy_ccGWAS.out
+```
+then if we do 
+```
+./ccGWAS par.ccgwas
+```
+we will get file `Toy_ccGWAS.out` and `Toy_ccGWAS.out.log` (which is again empty on this toy example). The results should look like below:
+```
+$ wc -l Toy_ccGWAS.out
+100001 Toy_ccGWAS.out
+$ head Toy_ccGWAS.out
+SNP	CHR	BP	A1	A2	OR	SE	Pval	ControlOR	ControlSE
+rs1.15416	1	7700000	2	1	0.926037	0.049281	1.1894e-01	1.015164	0.047930
+rs1.46761	1	23390000	2	1	0.966564	0.064864	6.0007e-01	0.911951	0.060649
+rs1.55154	1	27580000	2	1	0.961273	0.045885	3.8936e-01	1.073760	0.045726
+rs1.55373	1	27690000	2	1	1.003955	0.050324	9.3748e-01	1.032559	0.050186
+rs1.70279	1	35180000	1	2	0.997313	0.046590	9.5394e-01	0.860469	0.046735
+rs1.71259	1	35680000	1	2	1.017759	0.057443	7.5926e-01	1.508643	0.058011
+rs1.71741	1	35920000	1	2	1.001902	0.046481	9.6739e-01	0.830002	0.046866
+rs1.75279	1	37650000	2	1	0.995411	0.047411	9.2272e-01	1.139804	0.047244
+rs1.97843	1	48960000	1	2	0.959732	0.050914	4.1951e-01	0.515156	0.051061
+```
+As demonstrated in our manuscript, we suggest filter by the estimated standard deviation of controls. We used 0.05 as a cut off, more specifically, we did:
+```
+awk '$10<0.05{print $0}' Toy_ccGWAS.out > t && mv t Toy_ccGWAS.out
+```
+If we look at it now, we can see actually many SNPs will be filtered out under this setting (2000 cases, 2000 controls in each study, predefined r = 1.2). This is why we tested for various sample sizes in our experiment, and why we suggest more controls to be included. If we don't want this to happen, either we include more control samples to get a reliable estimate (smaller ControlSE), or we will have to go lenient on the filtering. 
+```
+$ wc -l Toy_ccGWAS.out
+54703 Toy_ccGWAS.out
+```
+Now if we sort by the `Pval` column, we get:
+```
+$ sort -gk8 Toy_ccGWAS.out| head
+rs1.50886	1	25436897	2	1	1.381536	0.047724	1.2688e-11	0.363717	0.047411
+rs1.50334	1	25165542	2	1	1.368019	0.048733	1.2737e-10	0.799708	0.047389
+rs1.50255	1	25123933	1	2	0.749349	0.045594	2.4722e-10	1.667225	0.046662
+rs1.50233	1	25112155	1	2	0.744103	0.047230	3.8946e-10	0.930692	0.048594
+rs1.50725	1	25354203	1	2	0.760088	0.044730	8.6339e-10	1.275916	0.045050
+rs1.50702	1	25340608	1	2	0.759832	0.044886	9.4173e-10	0.964350	0.044984
+rs1.50626	1	25303122	2	1	1.314941	0.045056	1.2264e-09	0.919387	0.044754
+rs1.50036	1	25017130	2	1	1.333289	0.047671	1.5995e-09	0.978397	0.046487
+rs1.8689	1	4354456	1	2	1.335644	0.048424	2.2784e-09	0.961769	0.049879
+rs1.50481	1	25231117	1	2	0.753104	0.047711	2.7968e-09	1.254875	0.049409
+```
+For the setting under which the toy input was simulated, SNP rs1.1-rs1.49000 are stress SNP, SNP rs1.49001-rs1.51000 are trait differencial SNPs, and the rest are null-null SNPs. So in this result, we can see most of the top SNPs picked up are real trait differencial SNPs (true positive), except one of them, rs1.8689, is a stress test SNP being falsely picked up. 
+
 ## To run ccGWAS
 Similarly, we do:
 ```
@@ -241,43 +304,7 @@ Output file of `ccGWAS` includes `SNP`, `CHR`, `BP`, `A1`, `A2`, `OR`, `SE`, and
 ## A special note regarding the overlap correction for GrpPRS and ccGWAS
 We did implement the sample overlap correction from estimation for both modules (same as `MetaAnalysis`, this can be triggered by specifying the **Zthres** parameter). However, we do not recommend using it with `GrpPRS` or `ccGWAS`. Because this scheme attributes estimated overlap of samples into cases and controls proportionally by their sizes, while in reality we would expect the majority of overlap happening in controls rather than cases. This should not have as much impact on meta-analysis, but can bias the results for `GrpPRS` and greatly hurt the power of ccGWAS, since only cases are considered in this analysis. If the exact number of overlap in cases and controls are known, you can specify them through **OverlapControls** and **OverlapCases** for `GrpPRS`, or **CaseInCase**, **ControlInControl** and **CaseInControl** for `ccGWAS`; If not, but you do expect certain amount of cases to be shared, specifying **Zthres** will generally give a little more conservative result for `ccGWAS`; If you expect only controls but not cases to be shared in `ccGWAS`, we sugest not to use **Zthres**. Instead, since overlap in controls can lead to a smaller `ControlSE` in the result, we suggest use a more stringent threshold for result filtering.
 
-# A few examples
-The commands
-```
-echo -e "Input\tInputSumStat1,InputSumStat2
-CaseInCase\t2000,0,0,2000
-CaseInControl\t0,0,0,0
-ControlInControl\t2000,0,0,2000
-Output\tOutputFile" > par.metaanalysis
-```
-will give you a parameter file `par.metaanalysis` that looks like
 
-```
-Input   InputSumStat1,InputSumStat2
-CaseInCase      2000,0,0,2000
-CaseInControl   0,0,0,0
-ControlInControl        2000,0,0,2000
-Output  OutputFile
-```
-then you can run 
-
-```
-./MetaAnalysis par.metaanalysis
-```
-Similarly, you can do 
-```
-echo -e "Target\tTargetSumStat1,TargetSumStat2
-Base\tBaseSumStat
-Output\tOutputFile
-Pthres\t0.01
-nCase\t1000,2000
-nControl\t1000,2000
-nBase\t3000,3000
-OverlapCases\t100,200
-OverlapControls\t200,400" > par.grpprs
-
-./GrpPRS par.grpprs
-```
 and 
 ```
 echo -e "Input\tInputSumStat1,InputSumStat2
