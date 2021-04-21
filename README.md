@@ -14,11 +14,11 @@ Some GWAS summary statistics include fields specifying the sample sizes for each
 
 For individual module specifics:
 
-[Meta-Analysis](#Meta-analysis)
+**[Meta-Analysis](#Meta-analysis)** -- [fast forward to demo](#A-quick-demo-of-MetaAnalysis)
 
-[Group PRS](#Group-PRS)
+**[Group PRS](#Group-PRS)** -- [fast forward to demo](#A-quick-demo-of-GrpPRS)
 
-[Case-case GWAS](#Case-case-GWAS)
+**[Case-case GWAS](#Case-case-GWAS)** -- [fast forward to demo](#A-quick-demo-of-ccGWAS)
 
 _Updated Mar 2021: Added preliminary sample overlap correction for GrpPRS module._
 
@@ -37,7 +37,16 @@ bash Compile /directory/of/where/you/what/the/tool/to/be/
 Then an excutable titled `MetaAnalysis` shall be created in the specified directory.
 
 ## A quick demo of MetaAnalysis
-We can run MetaAnalysis on the toy input example as below:
+For a fast run of the demo, we suggest:
+Download `ReAct-main.zip`, unzip it, and do below for compilation of our Meta-analysis module:
+```
+cd ReAct-main/MetaAnalysis_src/
+bash Compile ../
+cd ../
+```
+So that the `MetaAnalysis` tool will be in the folder `ReAct-main/`, which is in the same layer as folder `ToyInput/`. **Don't forget to install GLS for this module.**
+
+Then we can easily run MetaAnalysis on the toy input example as below:
 
 The commands
 ```
@@ -142,8 +151,16 @@ bash Compile /directory/of/where/you/what/the/tool/to/be/
 Then an excutable titled `GrpPRS` shall be created in the specified directory.
 
 ## A quick demo of GrpPRS
+Again, for a fast run we suggest:
+Download `ReAct-main.zip`, unzip it, and do below for compilation of our Group PRS module:
+```
+cd ReAct-main/GrpPRS_src/
+bash Compile ../
+cd ../
+```
+So that the `GrpPRS` tool will be in the folder `ReAct-main/`, which is in the same layer as folder `ToyInput/`.
 
-We can run GrpPRS on the toy input example as below:
+Then we can run GrpPRS on the toy input example as below:
 
 The commands
 ```
@@ -223,8 +240,16 @@ bash Compile /directory/of/where/you/what/the/tool/to/be/
 Then an excutable titled `ccGWAS` shall be created in the specified directory.
 
 ## A quick demo of ccGWAS
+Similarly, we suggest:
+Download `ReAct-main.zip`, unzip it, and do below for compilation of our ccGWAS module:
+```
+cd ReAct-main/ccGWAS_src/
+bash Compile ../
+cd ../
+```
+So that the `ccGWAS` tool will be in the folder `ReAct-main/`, which is in the same layer as folder `ToyInput/`.
 
-Similarly, we can run ccGWAS on the toy input. We first generate parameter file as below:
+With that we can run ccGWAS on the toy input. We first generate parameter file as below:
 
 ```
 echo -e "Input\tToyInput/Toy_ccGWAS.In1,ToyInput/Toy_ccGWAS.In2
