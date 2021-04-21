@@ -23,7 +23,7 @@ For individual module specifics:
 
 **[Demo run](#Examples-using-the-Toy-Input)**
 
-We also provided codes for the simulator we used to generate synthetic data (toy input). Please see the readme file in _Simulator_ for more details. 
+We also provided codes for the simulator we used to generate synthetic data (toy input). Please see the [readme file in _Simulator](https://github.com/Paschou-Lab/ReAct/tree/main/Simulator)_ for more details. 
 
 
 _Updated Mar 2021: Added preliminary sample overlap correction for GrpPRS module._
