@@ -73,7 +73,7 @@ then simply run
 ```
 ./MetaAnalysis par.metaanalysis
 ```
-We shoule get two files `Toy_Meta.out` and `Toy_Meta.out.log` (for this toy input the log should be empty), where the results are in `Toy_Meta.out` and it looks like this:
+Within 10 seconds on most of the PC, we should be able to get two files `Toy_Meta.out` and `Toy_Meta.out.log` (for this toy input the log should be empty), where the results are in `Toy_Meta.out` and it looks like this:
 ```
 $ head Toy_Meta.out
 SNP	CHR	BP	A1	A2	nCase	nControl	OR	SE	Pval
@@ -101,7 +101,9 @@ rs1.433	1	212426	1	2	2000	2000	0.714288	0.054959	9.2290e-10
 rs1.179	1	85383	1	2	2000	2000	0.755939	0.045727	9.4317e-10
 rs1.890	1	453661	2	1	2000	2000	1.312954	0.045357	1.9365e-09
 ```
-Note that in the toy input, SNP rs1.1-rs1.1000 are all predefined causal SNPs with r = 1.2 (Please see readme of our Simulator for more details), so all of the top SNPs here are ture positive. _Note that in our manuscript we reported results based on an average out of 10 iterarions, but for any single experiment the trend should be comparable. You can further verify power and type I error rate under different conditions using the simulator we provided, and compare with METAL or ASSET._ 
+In this toy input, SNP rs1.1-rs1.1000 are all predefined causal SNPs with r = 1.2 (Please see readme of our Simulator for more details), so all of the top SNPs here are ture positive. 
+
+_Note that in our manuscript we reported results based on an average out of 10 iterarions, but for any single experiment the trend should be comparable. Please feel free to further verify power and type I error rate under different conditions using the simulator we provided, and compare with [METAL](https://github.com/statgen/METAL) or [ASSET](https://bioconductor.org/packages/release/bioc/html/ASSET.html). This demo corresponds to results in figure 1,2 and table S1, S2, S3 in our manuscript._ 
 
 ## To run MetaAnalysis
 To run MetaAnalysis, go into the directory where the excutable locates and do:
@@ -209,6 +211,9 @@ P value threshold for base SNPs : 1.00e-05.
 Study ToyInput/Toy_GrpPRS.In1 Finished, 36 SNPs taken for PRS computation.
 ```
 
+_If you would like to compare the results with [PRSice2](https://www.prsice.info/), please use our simulator to generate individual level genotype. This demo corresponds to results in table 2 in our manuscript._ 
+
+
 ## To run GrpPRS
 Similar to MetaAnalysis, go into the directory where the `GrpPRS` locates and run:
 ```
@@ -313,6 +318,8 @@ rs1.8689	1	4354456	1	2	1.335644	0.048424	2.2784e-09	0.961769	0.049879
 rs1.50481	1	25231117	1	2	0.753104	0.047711	2.7968e-09	1.254875	0.049409
 ```
 For the setting under which the toy input was simulated, SNP rs1.1-rs1.49000 are stress SNP, SNP rs1.49001-rs1.51000 are trait differencial SNPs, and the rest are null-null SNPs. So in this result, we can see most of the top SNPs picked up are real trait differencial SNPs (true positive), except one of them, rs1.8689, which is a stress testing SNP being falsely picked up. 
+
+_Please feel free to generate more input studies under other conditions using our simulator. This demo corresponds to results in table 5 in our manuscript._ 
 
 ## To run ccGWAS
 Similarly, we do:
