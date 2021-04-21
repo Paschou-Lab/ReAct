@@ -61,20 +61,22 @@ with parameters as below:
 * **i**: integer experiment trail label, this will show up in the SNP ids in the output
 * **output**: prefix for output file
 * In this case `Homo` is fixed to be the first parameter, which is a model flag for the simulator
+For this model, in the simulated SNPs, the first _nCausal_ SNPs will be causal with predefined risk, and the rest _nSNP-nCausal_ will be null SNPs with risk = 1.0.
 
 _Note that for this simulator, `Fst` has to be a value between 0 and 1. If we want to simulate data without any stratification, we will need to simulate a larger population and split it to get two sub populations without stratification._
 
 To generate hetergeneous populations (simulations used for cc-GWAS), we can run 
 ```
-./SimEigenstrat Heter seed 2 Fst nSNP r nCausalShr Ngroup nCausal Ngroup nCausal i output
+./SimEigenstrat Heter seed 2 Fst nSNP r nCausalShr Ngroup1 nCausal1 Ngroup2 nCausal2 i output
 ```
 It takes more parameters than generating the homogeneous populations, with the extra parameters as below:
 * **nCausalShr**: predefined number of causal SNPs **shared** between populations (the stress test SNPs in our manuscript, we used nCausalShr = 49,000)
-* **Ngroup**: number of case/control in each population to be generated
-* **nCausal**: Prefefined number of causal SNPs _exclusive for each population_ (the trait differencial SNPs in our manuscript, we used nCausal = 1000 for each population, so number of differencial SNPs was 2000 in total)
+* **Ngroup1/2**: number of case/control in each population to be generated
+* **nCausal1/2**: Prefefined number of causal SNPs _exclusive for each population_ (the trait differencial SNPs in our manuscript, we used nCausal = 1000 for each population, so number of differencial SNPs was 2000 in total)
 * In this case `Heter` is fixed to be the first parameter, which is a model flag for the simulator
 * Also for simulation for cc-GWAS, `2` is fixed to be the parameter for **nPop**
 Under this flag, size of populations and number of causal variants in each population can be different, therefore parameters `Ngroup` and `nCausal` are repeated for twice when two populations are to be generated. The number of case/control in each population and number of causal SNPs can be specified for each population individually.
+For this model, in the simulated SNPs, the first _nCausalShr_ SNPs will be causal with predefined risk **in both populations**, followed by _nCausal1_ SNPs having effect `r` in only population 1,  and _nCausal2_ SNPs having effect `r` in only population 2; the rest _nSNP-nCausalShr-nCausal1-nCausal2_ will be null SNPs with risk = 1.0 in both populations.
 
 
 
