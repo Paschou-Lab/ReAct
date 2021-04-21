@@ -21,7 +21,7 @@ For individual module specifics:
 
 **[Case-case GWAS](#Case-case-GWAS)** -- [fast forward to demo](#A-quick-demo-of-ccGWAS)
 
-**[Demo run](# Examples-using-the-Toy-Input)**
+**[Demo run](#Examples-using-the-Toy-Input)**
 
 We also provided codes for the simulator we used to generate synthetic data (toy input). Please see the readme file in _Simulator_ for more details. 
 
