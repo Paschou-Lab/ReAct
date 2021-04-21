@@ -13,12 +13,18 @@ then an exicutable titled `SimEigentrat` should be created in the designated dir
 ## Quick demo for SimEigentrat
 Go to the directory where `SimEigentrat` is created, and run 
 ```
-./SimEigentrat Homo 12345 5 0.05 ${nSNP} ${r} ${Ngroup} ${nCausal} ${i} ${data}/Test0${i}
+./SimEigentrat Homo 12345 5 0.05 100000 1.2 1000 1000 1 DemoSim_Homo
 ```
+should give us
 
 
+run 
+```
+./SimEigentrat Heter 12345 2 0.05 100000 1.2 49000 1000 1000 1000 1000 1 DemoSim_Heter
+```
+should give us
 
-## Running SimEigentrat
+## Parameters for running SimEigentrat
 By specifying flag 'Homo' or 'Heter', it can be used to generate homogeneous and hetergeneous populations, under different level of population stratification. More specifically:
 
 To generate homogeneous populations (simulations used for meta-analysis and group PRS), we can run 
