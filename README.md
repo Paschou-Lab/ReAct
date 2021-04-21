@@ -143,18 +143,17 @@ Output file of `ccGWAS` includes `SNP`, `CHR`, `BP`, `A1`, `A2`, `OR`, `SE`, and
 
 # Examples using the Toy Input
 
-For a fast run of all our demo, we suggest:
+For a fast run of all our demo, we suggest
+
 Download `ReAct-main.zip`, unzip it, and do below for compilation of each module:
 ```
-cd ReAct-main/
-cd MetaAnalysis_src/
+cd ReAct-main/MetaAnalysis_src/
 bash Compile ../
 cd ../GrpPRS_src/
 bash Compile ../
 cd ../ccGWAS_src/
 bash Compile ../
 cd ../
-
 ```
 So that all three tools will be in the folder `ReAct-main/`, which is in the same layer as folder `ToyInput/`. **Don't forget to install GLS for meta-analsis module.**
 
