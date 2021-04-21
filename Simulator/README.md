@@ -61,6 +61,7 @@ with parameters as below:
 * **i**: integer experiment trail label, this will show up in the SNP ids in the output
 * **output**: prefix for output file
 * In this case `Homo` is fixed to be the first parameter, which is a model flag for the simulator
+
 For this model, in the simulated SNPs, the first _nCausal_ SNPs will be causal with predefined risk, and the rest _nSNP-nCausal_ will be null SNPs with risk = 1.0.
 
 _Note that for this simulator, `Fst` has to be a value between 0 and 1. If we want to simulate data without any stratification, we will need to simulate a larger population and split it to get two sub populations without stratification._
@@ -76,6 +77,7 @@ It takes more parameters than generating the homogeneous populations, with the e
 * In this case `Heter` is fixed to be the first parameter, which is a model flag for the simulator
 * Also for simulation for cc-GWAS, `2` is fixed to be the parameter for **nPop**
 Under this flag, size of populations and number of causal variants in each population can be different, therefore parameters `Ngroup` and `nCausal` are repeated for twice when two populations are to be generated. The number of case/control in each population and number of causal SNPs can be specified for each population individually.
+
 For this model, in the simulated SNPs, the first _nCausalShr_ SNPs will be causal with predefined risk **in both populations**, followed by _nCausal1_ SNPs having effect `r` in only population 1,  and _nCausal2_ SNPs having effect `r` in only population 2; the rest _nSNP-nCausalShr-nCausal1-nCausal2_ will be null SNPs with risk = 1.0 in both populations.
 
 
