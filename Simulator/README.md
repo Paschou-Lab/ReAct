@@ -1,7 +1,7 @@
 # SimEigenstrat
 This is the Simulator we used for all our experiments on simulation data. It generates individual level genotypes in plink .tped and .tfam files under a Balding-Nichols model. We named it `SimEigenstrat` because it is the same simulation model used in [this paper](https://www.nature.com/articles/ng1847).
 
-**To get summary statistics to run ReACt, you will need to install [plink](https://www.cog-genomics.org/plink/) and use command --assoc or --logistic to get the summary statistics to be used as input. Summary statistics used in our manuscript are generated through a standard manner using plink.**
+**To get summary statistics to run ReACt, one will need to install [plink](https://www.cog-genomics.org/plink/) and use command --assoc or --logistic to get the summary statistics to be used as input. Summary statistics used in our manuscript are generated through a standard manner using plink.**
 
 ## Compilation
 Same as all other ReACt modules, simply download the folder and do 
