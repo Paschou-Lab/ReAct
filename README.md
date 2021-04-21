@@ -105,7 +105,7 @@ In this toy input, SNP rs1.1-rs1.1000 are all predefined causal SNPs with r = 1.
 
 _Note that in our manuscript we reported results based on an average out of 10 iterarions, but for any single experiment the trend should be comparable. Please feel free to further verify power and type I error rate under different conditions using the simulator we provided, and compare with [METAL](https://github.com/statgen/METAL) or [ASSET](https://bioconductor.org/packages/release/bioc/html/ASSET.html). This demo corresponds to results in figure 1,2 and table S1, S2, S3 in our manuscript._ 
 
-## To run MetaAnalysis
+## To use MetaAnalysis
 To run MetaAnalysis, go into the directory where the excutable locates and do:
 ```
 ./MetaAnalysis par.file
@@ -213,7 +213,7 @@ Study ToyInput/Toy_GrpPRS.In1 Finished, 36 SNPs taken for PRS computation.
 
 _If you would like to compare the results with [PRSice2](https://www.prsice.info/), please use our simulator to generate individual level genotype. This demo corresponds to results in table 2 in our manuscript._ 
 
-## To run GrpPRS
+## To use GrpPRS
 Similar to MetaAnalysis, go into the directory where the `GrpPRS` locates and run:
 ```
 ./GrpPRS par.file
@@ -320,7 +320,7 @@ For the setting under which the toy input was simulated, SNP rs1.1-rs1.49000 are
 
 _Please feel free to generate more input studies under other conditions using our simulator. This demo corresponds to results in table 5 in our manuscript._ 
 
-## To run ccGWAS
+## To use ccGWAS
 Similarly, we do:
 ```
 ./ccGWAS par.file
