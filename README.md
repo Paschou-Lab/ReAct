@@ -20,18 +20,15 @@ For individual module specifics:
 
 [Case-case GWAS](#Case-case-GWAS)
 
-[Examples to run ReAct](#A-few-examples)
-
-
 _Updated Mar 2021: Added preliminary sample overlap correction for GrpPRS module._
 
 _Updated Apr 17 2021: more robust matrix inverse (svd) in MetaAnalysis module; adjusted iteration steps to accelerate convergence._
 
-_Updated Apr 21 2021: Added codes for simulator and toy input files._
+_Updated Apr 21 2021: Added codes for simulator and toy input files; added more detailed demo for each module._
 
 # Meta-analysis
 ## Compilation
-**Compilation of MetaAnalysis module requires installation of GNU Scientific Library (GLS). Please find [here](https://www.gnu.org/software/gsl/) for download and installation.**
+**Compilation of MetaAnalysis module now requires installation of GNU Scientific Library (GLS). Please find [here](https://www.gnu.org/software/gsl/) for download and installation.**
 
 Once GLS has been installed, download folder `MetaAnalysis_src` for source code of meta-analysis module. Inside the directory with source code, simply run the command:
 ```
@@ -287,7 +284,7 @@ rs1.50036	1	25017130	2	1	1.333289	0.047671	1.5995e-09	0.978397	0.046487
 rs1.8689	1	4354456	1	2	1.335644	0.048424	2.2784e-09	0.961769	0.049879
 rs1.50481	1	25231117	1	2	0.753104	0.047711	2.7968e-09	1.254875	0.049409
 ```
-For the setting under which the toy input was simulated, SNP rs1.1-rs1.49000 are stress SNP, SNP rs1.49001-rs1.51000 are trait differencial SNPs, and the rest are null-null SNPs. So in this result, we can see most of the top SNPs picked up are real trait differencial SNPs (true positive), except one of them, rs1.8689, is a stress test SNP being falsely picked up. 
+For the setting under which the toy input was simulated, SNP rs1.1-rs1.49000 are stress SNP, SNP rs1.49001-rs1.51000 are trait differencial SNPs, and the rest are null-null SNPs. So in this result, we can see most of the top SNPs picked up are real trait differencial SNPs (true positive), except one of them, rs1.8689, which is a stress testing SNP being falsely picked up. 
 
 ## To run ccGWAS
 Similarly, we do:
@@ -303,15 +300,3 @@ Output file of `ccGWAS` includes `SNP`, `CHR`, `BP`, `A1`, `A2`, `OR`, `SE`, and
 
 ## A special note regarding the overlap correction for GrpPRS and ccGWAS
 We did implement the sample overlap correction from estimation for both modules (same as `MetaAnalysis`, this can be triggered by specifying the **Zthres** parameter). However, we do not recommend using it with `GrpPRS` or `ccGWAS`. Because this scheme attributes estimated overlap of samples into cases and controls proportionally by their sizes, while in reality we would expect the majority of overlap happening in controls rather than cases. This should not have as much impact on meta-analysis, but can bias the results for `GrpPRS` and greatly hurt the power of ccGWAS, since only cases are considered in this analysis. If the exact number of overlap in cases and controls are known, you can specify them through **OverlapControls** and **OverlapCases** for `GrpPRS`, or **CaseInCase**, **ControlInControl** and **CaseInControl** for `ccGWAS`; If not, but you do expect certain amount of cases to be shared, specifying **Zthres** will generally give a little more conservative result for `ccGWAS`; If you expect only controls but not cases to be shared in `ccGWAS`, we sugest not to use **Zthres**. Instead, since overlap in controls can lead to a smaller `ControlSE` in the result, we suggest use a more stringent threshold for result filtering.
-
-
-and 
-```
-echo -e "Input\tInputSumStat1,InputSumStat2
-CaseInCase\t2000,0,0,2000
-CaseInControl\t0,0,0,0
-ControlInControl\t2000,0,0,2000
-Output\tOutputFile" > par.ccgwas
-
-./ccGWAS par.ccgwas
-```
