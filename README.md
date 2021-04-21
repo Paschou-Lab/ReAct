@@ -32,7 +32,7 @@ _Updated Apr 21 2021: Added codes for simulator and toy input files; added more 
 
 # Meta-analysis
 ## Compilation
-**Compilation of MetaAnalysis module now requires installation of GNU Scientific Library (GLS). Please find [here](https://www.gnu.org/software/gsl/) for download and installation.**
+**Compilation of MetaAnalysis module now requires installation of GNU Scientific Library (GLS). Please visit [this link](https://www.gnu.org/software/gsl/) for download and installation.**
 
 Once GLS has been installed, download folder `MetaAnalysis_src` for source code of meta-analysis module. Inside the directory with source code, simply run the command:
 ```
