@@ -179,7 +179,7 @@ nBase\t1000,1000
 OverlapCases\t0
 OverlapControls\t0" > par.grpprs
 ```
-should give us a parameter file `par.metaanalysis` that looks like
+should give us a parameter file `par.grpprs` that looks like
 ```
 Target  ToyInput/Toy_GrpPRS.target
 Base    ToyInput/Toy_GrpPRS.base
@@ -212,7 +212,6 @@ Study ToyInput/Toy_GrpPRS.In1 Finished, 36 SNPs taken for PRS computation.
 ```
 
 _If you would like to compare the results with [PRSice2](https://www.prsice.info/), please use our simulator to generate individual level genotype. This demo corresponds to results in table 2 in our manuscript._ 
-
 
 ## To run GrpPRS
 Similar to MetaAnalysis, go into the directory where the `GrpPRS` locates and run:
