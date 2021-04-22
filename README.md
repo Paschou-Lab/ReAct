@@ -262,7 +262,7 @@ P value threshold for base SNPs : 1.00e-05.
 Study ToyInput/Toy_GrpPRS.In1 Finished, 36 SNPs taken for PRS computation.
 ```
 
-_If you would like to compare the results with [PRSice2](https://www.prsice.info/), please use our simulator to generate individual level genotype. This demo corresponds to results in table 2 in our manuscript._ 
+_If you would like to compare the results with [PRSice2](https://www.prsice.info/), please use our simulator to generate individual level genotype for running PRSice2. This demo corresponds to results in table 2 in our manuscript._ 
 
 ## A quick demo of ccGWAS
 Similarly, we can run ccGWAS on the toy input. We first generate a parameter file as below:
