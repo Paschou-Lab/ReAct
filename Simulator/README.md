@@ -16,7 +16,7 @@ Go to the directory where `SimEigenstrat` is created, and run
 ./SimEigenstrat Homo 12345 5 0.05 100000 1.2 1000 1000 1 DemoSim_Homo
 ```
 This should not take more than 10 minutes to run on most of the PCs. As a result, it should give us two files 
-`DemoSim_Homo.tfam` and `DemoSim_Homo.tped`. They are standard plink plain text files. They should contain genotypes of 100,000 SNPs (out of which 1000 are causal with predefined risk r = 1.2), for 5 stratified populations with fixation index Fst = 0.05, each with 1000 case and 1000 controls -- so 1000 x 2 x 5 = 10,000 samples,a and 100,000 SNPs in total. You can verified this by doing
+`DemoSim_Homo.tfam` and `DemoSim_Homo.tped`. They are standard plink plain text files. They should contain genotypes of 100,000 SNPs (out of which 1000 are causal with predefined risk r = 1.2), for 5 stratified populations with fixation index Fst = 0.05, each with 1000 case and 1000 controls -- so 1000 x 2 x 5 = 10,000 samples,a and 100,000 SNPs in total. We can verified this by doing
 ```
 $ wc -l DemoSim_Homo.tfam
 $ wc -l DemoSim_Homo.tped
@@ -35,13 +35,13 @@ Pop-1	Sample-ca3	0	0	0	2
 Pop-1	Sample-ca4	0	0	0	2
 Pop-1	Sample-ca5	0	0	0	2
 ```
-So you can easily separate the populations and cases and controls, it you wish, using plink. DemoSim_Homo.tped will be too wide to show, but it should look like standard plink .tped file with 1 and 2 as genotype encoding. With that, separate the file by populations, and run standard `--assoc` or `--logistic` (if introduced sample overlap) will give use the input summary statistics we can use for running ReACt. We used this command (with variable parameters for Fst and r, see below) to generate our simulation for experiments for Meta-analysis and group PRS.
+So we can easily separate the populations and cases and controls, it one wishes, using plink. DemoSim_Homo.tped will be too wide to show, but it should look like standard plink .tped file with 1 and 2 as genotype encoding. With that, separate the file by populations, and run standard `--assoc` or `--logistic` (if introduced sample overlap) will give us the input summary statistics we can use for running ReACt. We used this command (with variable parameters for Fst and r, see below) to generated our simulation for experiments for Meta-analysis and group PRS.
 
-Run 
+Similarly, we can also run 
 ```
 ./SimEigenstrat Heter 12345 2 0.05 100000 1.2 49000 1000 1000 1000 1000 1 DemoSim_Heter
 ```
-This should be faster than the previous line, as a smaller dataset is being simulated. It should give us `DemoSim_Heter.tfam` and `DemoSim_Heter.tped`. The output should contain 100,000 SNPs (out of which 1000 are causal only in population 1, 1000 are causal only in population 2, 49,000 are causal for both population, all with predefined risk r = 1.2) and only 2 populations, each with 1000 cases and 1000 controls -- so in total 100,000 SNPs and 4000 samples. They are in the same plink-friendly format as the `DemoSim_Homo.tfam` and `DemoSim_Homo.tped`. This is how we generate simulation for our ccGWAS experiments. 
+This should be faster than the previous line, as a smaller dataset is being simulated. It should give us `DemoSim_Heter.tfam` and `DemoSim_Heter.tped`. The output should contain 100,000 SNPs (out of which 1000 are causal only in population 1, 1000 are causal only in population 2, 49,000 are causal for both population, all with predefined risk r = 1.2) and only 2 populations, each with 1000 cases and 1000 controls -- so in total 100,000 SNPs and 4000 samples. They are in the same plink-friendly format as the `DemoSim_Homo.tfam` and `DemoSim_Homo.tped`. This is how we generated simulation for our ccGWAS experiments. 
 
 ## Parameters to run SimEigenstrat
 By specifying flag 'Homo' or 'Heter', it can be used to generate homogeneous and hetergeneous populations, under different level of population stratification. More specifically:
