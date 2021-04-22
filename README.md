@@ -36,7 +36,7 @@ _Updated Apr 21 2021: Added codes for simulator and toy input files; added more 
 ## Compilation
 **Compilation of MetaAnalysis module now requires installation of GNU Scientific Library (GSL). Please visit [this link](https://www.gnu.org/software/gsl/) for download and installation.**
 
-Once GLS has been installed, download folder `MetaAnalysis_src` for source code of meta-analysis module. Inside the directory with source code, simply run the command:
+Once GSL has been installed, download folder `MetaAnalysis_src` for source code of meta-analysis module. Inside the directory with source code, simply run the command:
 ```
 bash Compile /directory/of/where/you/what/the/tool/to/be/
 ```
