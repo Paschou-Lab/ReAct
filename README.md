@@ -34,7 +34,7 @@ _Updated Apr 21 2021: Added codes for simulator and toy input files; added more 
 
 # Meta-analysis
 ## Compilation
-**Compilation of MetaAnalysis module now requires installation of GNU Scientific Library (GLS). Please visit [this link](https://www.gnu.org/software/gsl/) for download and installation.**
+**Compilation of MetaAnalysis module now requires installation of GNU Scientific Library (GSL). Please visit [this link](https://www.gnu.org/software/gsl/) for download and installation.**
 
 Once GLS has been installed, download folder `MetaAnalysis_src` for source code of meta-analysis module. Inside the directory with source code, simply run the command:
 ```
@@ -155,7 +155,7 @@ cd ../ccGWAS_src/
 bash Compile ../
 cd ../
 ```
-So that all three tools will be in the folder `ReAct-main/`, which is in the same layer as folder `ToyInput/`. **Don't forget to install GLS for meta-analsis module.**
+So that all three tools will be in the folder `ReAct-main/`, which is in the same layer as folder `ToyInput/`. **Don't forget to install GSL for meta-analsis module.**
 
 ## A quick demo of MetaAnalysis
 
