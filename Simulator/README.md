@@ -16,7 +16,7 @@ Go to the directory where `SimEigenstrat` is created, and run
 ./SimEigenstrat Homo 12345 5 0.05 100000 1.2 1000 1000 1 DemoSim_Homo
 ```
 This should not take more than 10 minutes to run on most of the PCs. As a result, it should give us two files 
-`DemoSim_Homo.tfam` and `DemoSim_Homo.tped`. They are standard plink plain text files. They should contain genotypes of 100,000 SNPs (out of which 1000 are causal with predefined risk r = 1.2), for 5 stratified populations with fixation index Fst = 0.05, each with 1000 case and 1000 controls -- so 1000*2*5 = 10,000 samples,a and 100,000 SNPs in total. You can verified this by doing
+`DemoSim_Homo.tfam` and `DemoSim_Homo.tped`. They are standard plink plain text files. They should contain genotypes of 100,000 SNPs (out of which 1000 are causal with predefined risk r = 1.2), for 5 stratified populations with fixation index Fst = 0.05, each with 1000 case and 1000 controls -- so 1000 x 2 x 5 = 10,000 samples,a and 100,000 SNPs in total. You can verified this by doing
 ```
 $ wc -l DemoSim_Homo.tfam
 $ wc -l DemoSim_Homo.tped
