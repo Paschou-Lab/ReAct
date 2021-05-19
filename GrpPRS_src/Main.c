@@ -15,6 +15,8 @@ int main(int argc, char* argv[]) {
     int m; long int n;
     memset(nOverlapCa, 0, sizeof(nOverlapCa[0]) * maxDF);
     memset(nOverlapCon, 0, sizeof(nOverlapCon[0]) * maxDF);
+    OverlapFlag = 0;
+    Zthres = 0.0;
 	ReadParam(argv[1]);
     for (m = 0; m < 23; m++) {
         for (n = 0; n < 10000; n++) {

@@ -27,6 +27,7 @@ double thresP;
 long int nCaBase, nConBase;
 double dfBase;
 double Zthres;
+int OverlapFlag;
 
 
 // Struct
@@ -52,7 +53,6 @@ typedef struct data Data;
 
 Data *hashTable[23][100000];
 int hashLen[23][100000];
-
 
 // Score related
 double SumZik[maxDF];
@@ -95,6 +95,8 @@ double TstatReal[maxDF];
 
 
 // Support Func
+void fOverlap();
+
 void convertToUpperCase(char *Str);
 
 long int hashFunc(long int i);

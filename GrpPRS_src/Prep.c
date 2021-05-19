@@ -86,6 +86,7 @@ void ReadParam(char *ParIn) {
 	    	}
     	}
     	dfBase = (double)(nCaBase + nConBase - 2);
+    	fOverlap();
     	if ((nCa != nInfile) || (nCon != nInfile)) {
     		printf("Missing parameter!\n");
     		exit(0);
@@ -102,6 +103,8 @@ void ReadBase(char *InputBase, FILE *LogFile) {
 	FILE *Base;
 	char snp[50], a1[100], a2[100];
 	Base = fopen(InputBase, "r");
+	Frq ZeroFrq;
+	ZeroFrq.pCa = 0.0; ZeroFrq.pCon = 0.0; ZeroFrq.pPop = 0.0; 
 	if (Base == NULL) {
 	    printf("Cannot open PRS input file.\n");
 	    exit(0);
@@ -158,19 +161,24 @@ void ReadBase(char *InputBase, FILE *LogFile) {
             strcpy(tmp.Unaff,a2);
             tmp.CHR = atoi(token[CHRc-1]);
             tmp.Pos = atoi(token[Posc-1]);
-
+            
             ////
             tmp.Pbase = atof(token[Pc-1]);
-            or = atof(token[ORc-1]);
+			or = (ORc ? atof(token[ORc-1]) : exp(atof(token[BETAc-1])));
             se = atof(token[SEc-1]);
-            tmp.Zbase = (or*se != 0) ? log(or)/se : 0.0f;
-            tmp.Basefrq = GroupFreq(se, nCaBase, nConBase, or, 0.0);
+            if (OverlapFlag) {
+	            tmp.Zbase = (or*se != 0) ? log(or)/se : 0.0f;
+    	        tmp.Basefrq = GroupFreq(se, nCaBase, nConBase, or, 0.0);
+    	    }
+    	    else {
+    	    	tmp.Zbase = 0.0f;
+    	        tmp.Basefrq = ZeroFrq;
+    	    }
             ////
             if (BETAc)
             	tmp.Beta = atof(token[BETAc-1]);
             else
             	tmp.Beta = log(atof(token[ORc-1]));
-
 	        hashSNPpush(tmp);
 	        if (tmp.Pbase <= thresP) {
 		        i++;   

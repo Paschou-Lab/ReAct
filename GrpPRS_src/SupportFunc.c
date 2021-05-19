@@ -5,6 +5,14 @@
 #include "cdflib.h"
 #include "SupportFunc.h"
 
+void fOverlap() {
+	double sum = 0.0;
+	int i;
+	for (i = 0; i < maxDF; i++)
+		sum += (nOverlapCa[i] + nOverlapCon[i]);
+	if ((sum > 0.0) || (Zthres > 0.0))
+		OverlapFlag = 1;
+} 
 
 void convertToUpperCase(char *Str) {
   while(*Str) {
